@@ -3,5 +3,5 @@
 </script>
 
 <article>
-    {JSON.stringify(record)}
+    {record.ipv6}
 </article>

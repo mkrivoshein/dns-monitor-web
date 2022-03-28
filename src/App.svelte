@@ -64,7 +64,10 @@ onMount(async () => {
 
   <button type="button" class="btn" on:click={() => fetchData()}>Fetch</button>
 
-  <Records/>
+  <span style="padding-top: 20px;">
+    <Records/>
+  </span>
+
 </main>
 
 <style>
