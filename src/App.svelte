@@ -1,8 +1,9 @@
 <script>
-import { onMount } from "svelte";
-import { domainRecords } from './store.ts';
-import axios from "axios";
-import Records from './components/Records.svelte'
+  import TailwindCss from './TailwindCSS.svelte';
+  import { onMount } from "svelte";
+  import { domainRecords } from './store.ts';
+  import axios from "axios";
+  import Records from './components/Records.svelte'
 
 const API_URL = `dns/`
 
@@ -56,6 +57,8 @@ onMount(async () => {
 <svelte:head>
 
 </svelte:head>
+
+<TailwindCss />
 
 <main>
   <h1>DNS Monitor</h1>
