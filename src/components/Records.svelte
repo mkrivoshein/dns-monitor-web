@@ -78,18 +78,18 @@
     });
 </script>
 
-    <table>
+<table class="items-center w-full bg-transparent border-collapse">
         <thead>
         <tr>
-            <th>Type</th>
-            <th>Content</th>
+            <th class="px-6 align-middle border border-solid py-3 text-s uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">Type</th>
+            <th class="px-6 align-middle border border-solid py-3 text-s uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">Content</th>
         </tr>
         </thead>
         <tbody id="A">
         {#each aRecords as record}
                 <tr>
-                    <td>{record.recordType}</td>
-                    <td>
+                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">{record.recordType}</td>
+                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">
                         <ARecord record="{record}"/>
                     </td>
                 </tr>
@@ -99,8 +99,8 @@
         <tbody id="AAAA">
             {#each aaaaRecords as record}
                 <tr>
-                    <td>{record.recordType}</td>
-                    <td>
+                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">{record.recordType}</td>
+                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">
                         <AAAARecord record="{record}"/>
                     </td>
                 </tr>
@@ -110,8 +110,8 @@
         <tbody id="CNAME">
         {#each cnameRecords as record}
             <tr>
-                <td>{record.recordType}</td>
-                <td>
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">{record.recordType}</td>
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">
                     {record.value}
                 </td>
             </tr>
@@ -121,8 +121,8 @@
         <tbody id="MX">
         {#each mxRecords as record}
             <tr>
-                <td>{record.recordType}</td>
-                <td>
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">{record.recordType}</td>
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">
                     <MXRecord record="{record}"/>
                 </td>
             </tr>
@@ -132,8 +132,8 @@
         <tbody id="TXT">
         {#each txtRecords as record}
             <tr>
-                <td>{record.recordType}</td>
-                <td>
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">{record.recordType}</td>
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">
                     {record.value}
                 </td>
             </tr>
@@ -143,8 +143,8 @@
         <tbody id="SRV">
         {#each srvRecords as record}
             <tr>
-                <td>{record.recordType}</td>
-                <td>
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">{record.recordType}</td>
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">
                     <SRVRecord record="{record}"/>
                 </td>
             </tr>
@@ -154,8 +154,8 @@
         <tbody id="NS">
         {#each nsRecords as record}
             <tr>
-                <td>{record.recordType}</td>
-                <td>
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">{record.recordType}</td>
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">
                     <NSRecord record="{record}"/>
                 </td>
             </tr>
@@ -165,8 +165,8 @@
         <tbody id="CAA">
         {#each caaRecords as record}
                 <tr>
-                    <td>{record.recordType}</td>
-                    <td>
+                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">{record.recordType}</td>
+                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">
                         <CAARecord record="{record}"/>
                     </td>
                 </tr>
@@ -176,8 +176,8 @@
         <tbody id="SOA">
         {#each soaRecords as record}
             <tr>
-                <td>{record.recordType}</td>
-                <td>
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">{record.recordType}</td>
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">
                     <SOARecord record="{record}"/>
                 </td>
             </tr>
@@ -187,8 +187,8 @@
         <tbody id="Other">
         {#each otherRecords as record}
             <tr>
-                <td>{record.recordType}</td>
-                <td>
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">{record.recordType}</td>
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">
                     {JSON.stringify(record)}
                 </td>
             </tr>

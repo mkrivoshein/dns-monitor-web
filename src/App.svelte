@@ -1,74 +1,113 @@
 <script>
-  import TailwindCss from './TailwindCSS.svelte';
-  import { onMount } from "svelte";
-  import { domainRecords } from './store.ts';
-  import axios from "axios";
-  import Records from './components/Records.svelte'
+    import TailwindCss from './TailwindCSS.svelte';
+    import {onMount} from "svelte";
+    import {domainRecords} from './store.ts';
+    import axios from "axios";
+    import Records from './components/Records.svelte'
 
-const API_URL = `dns/`
+    const API_URL = `dns/`
 
-let domainValid = false;
-let domain = ''
-let errored = false;
-let loading = false;
-let records;
-let promise;
+    let domainValid = false;
+    let domain = ''
+    let errored = false;
+    let loading = false;
+    let records;
+    let promise;
 
-domainRecords.subscribe(value => {
-  records = value;
-});
+    domainRecords.subscribe(value => {
+        records = value;
+    });
 
-function fetchData() {
-  // this.url = `${API_URL}${this.domain}`
-  // this.records = await (await fetch(this.url)).json()
-  if (domainValid) {
-    let url = `${API_URL}${domain}`
-    errored = false;
-    loading = true;
-    promise = axios
-            .get(url)
-            .then(response => {
-              console.log('response.JSON:', {
-                message: 'Request received',
-                data: response.data
-              });
-              domainRecords.set(response.data.records)
-              //this.errored = false
-            })
-            .catch(error => {
-              console.log(error)
-              //this.errored = true
-            })
-            .finally(() => loading = false)
-  } else {
-    errored = true;
-  }
-}
+    function fetchData() {
+        // this.url = `${API_URL}${this.domain}`
+        // this.records = await (await fetch(this.url)).json()
+        if (domainValid) {
+            let url = `${API_URL}${domain}`
+            errored = false;
+            loading = true;
+            promise = axios
+                .get(url)
+                .then(response => {
+                    console.log('response.JSON:', {
+                        message: 'Request received',
+                        data: response.data
+                    });
+                    domainRecords.set(response.data.records)
+                    //this.errored = false
+                })
+                .catch(error => {
+                    console.log(error)
+                    //this.errored = true
+                })
+                .finally(() => loading = false)
+        } else {
+            errored = true;
+        }
+    }
 
-function validateDomain() {
-  domainValid = /.+\..+/.test(domain);
-}
+    function validateDomain() {
+        domainValid = /.+\..+/.test(domain);
+    }
 
-onMount(async () => {
-  await fetchData();
-});
+    onMount(async () => {
+        await fetchData();
+    });
 </script>
 
 <svelte:head>
 
 </svelte:head>
 
-<TailwindCss />
+<TailwindCss/>
 
 <main>
-  <h1>DNS Monitor</h1>
-
-  <input bind:value={domain} on:change={() => validateDomain()}>
-
-  <button type="button" class="btn" on:click={() => fetchData()}>Fetch</button>
-
-  <span style="padding-top: 20px;">
-    <Records/>
-  </span>
-
+    <section class="relative block px-20 pt-4 pb-8 h-300-px">
+        <h1 class="py-4 font-bold text-4xl text-blueGray-600">Query DNS records</h1>
+        <form>
+        <div class="flex">
+                <div class="flex-1">
+                    <label
+                            class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                            for="domain-name"
+                    >
+                        Enter a domain name:
+                    </label>
+                    <input bind:value={domain}
+                           class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                           id="domain-name"
+                           on:change={() => validateDomain()}
+                           placeholder="google.com"
+                           type="domain"
+                    />
+                </div>
+                <div class="text-center flex-none py-6 ml-2">
+                    <button on:click={() => fetchData()}
+                            class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                            type="button">
+                        Query
+                    </button>
+                </div>
+        </div>
+        </form>
+    </section>
+    <section class="relative px-20 py-1 bg-blueGray-200">
+        <div class="flex flex-wrap mt-1">
+            <div class="w-full mb-2">
+                <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded">
+                    <div class="rounded-t mb-0 px-4 py-3 border-0">
+                        <div class="flex flex-wrap items-center">
+                            <div class="relative w-full px-4 max-w-full flex-grow flex-1">
+                                <h3 class="font-semibold text-lg text-blueGray-700">
+                                    Results
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="block w-full px-2 overflow-x-auto">
+                    <Records/>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
