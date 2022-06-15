@@ -78,117 +78,117 @@
     });
 </script>
 
-<table class="items-center w-full bg-transparent border-collapse">
+<table class="items-center w-full bg-transparent border border-collapse border-solid border-x-0 border-y-1">
         <thead>
-        <tr>
-            <th class="px-6 align-middle border border-solid py-3 text-s uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">Type</th>
-            <th class="px-6 align-middle border border-solid py-3 text-s uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100">Content</th>
+        <tr class="border bg-blueGray-200">
+            <th class="px-6 align-middle py-3 text-s uppercase whitespace-nowrap font-semibold text-left">Type</th>
+            <th class="px-6 align-middle py-3 text-s uppercase whitespace-nowrap font-semibold text-left">Content</th>
         </tr>
         </thead>
-        <tbody id="A">
+        <tbody id="A" class="border">
         {#each aRecords as record}
                 <tr>
-                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">{record.recordType}</td>
-                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">
+                    <td class="px-6 align-middle text-s whitespace-nowrap p-1">{record.recordType}</td>
+                    <td class="px-6 align-middle text-s whitespace-nowrap p-1">
                         <ARecord record="{record}"/>
                     </td>
                 </tr>
         {/each}
         </tbody>
 
-        <tbody id="AAAA">
+        <tbody id="AAAA" class="border">
             {#each aaaaRecords as record}
                 <tr>
-                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">{record.recordType}</td>
-                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">
+                    <td class="px-6 align-middle text-s whitespace-nowrap p-1">{record.recordType}</td>
+                    <td class="px-6 align-middle text-s whitespace-nowrap p-1">
                         <AAAARecord record="{record}"/>
                     </td>
                 </tr>
             {/each}
         </tbody>
 
-        <tbody id="CNAME">
+        <tbody id="CNAME" class="border">
         {#each cnameRecords as record}
             <tr>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">{record.recordType}</td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">
+                <td class="px-6 align-middle text-s whitespace-nowrap p-1">{record.recordType}</td>
+                <td class="px-6 align-middle text-s whitespace-nowrap p-1">
                     {record.value}
                 </td>
             </tr>
         {/each}
         </tbody>
 
-        <tbody id="MX">
+        <tbody id="MX" class="border">
         {#each mxRecords as record}
             <tr>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">{record.recordType}</td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">
+                <td class="px-6 align-middle text-s whitespace-nowrap p-1">{record.recordType}</td>
+                <td class="px-6 align-middle text-s whitespace-nowrap p-1">
                     <MXRecord record="{record}"/>
                 </td>
             </tr>
         {/each}
         </tbody>
 
-        <tbody id="TXT">
+        <tbody id="TXT" class="border">
         {#each txtRecords as record}
             <tr>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">{record.recordType}</td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">
+                <td class="px-6 align-middle text-s whitespace-nowrap p-1">{record.recordType}</td>
+                <td class="px-6 align-middle text-s whitespace-nowrap p-1">
                     {record.value}
                 </td>
             </tr>
         {/each}
         </tbody>
 
-        <tbody id="SRV">
+        <tbody id="SRV" class="border">
         {#each srvRecords as record}
             <tr>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">{record.recordType}</td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">
+                <td class="px-6 align-middle text-s whitespace-nowrap p-1">{record.recordType}</td>
+                <td class="px-6 align-middle text-s whitespace-nowrap p-1">
                     <SRVRecord record="{record}"/>
                 </td>
             </tr>
         {/each}
         </tbody>
 
-        <tbody id="NS">
+        <tbody id="NS" class="border">
         {#each nsRecords as record}
             <tr>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">{record.recordType}</td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">
+                <td class="px-6 align-middle text-s whitespace-nowrap p-1">{record.recordType}</td>
+                <td class="px-6 align-middle text-s whitespace-nowrap p-1">
                     <NSRecord record="{record}"/>
                 </td>
             </tr>
         {/each}
         </tbody>
 
-        <tbody id="CAA">
+        <tbody id="CAA" class="border">
         {#each caaRecords as record}
                 <tr>
-                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">{record.recordType}</td>
-                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">
+                    <td class="px-6 align-middle text-s whitespace-nowrap p-1">{record.recordType}</td>
+                    <td class="px-6 align-middle text-s whitespace-nowrap p-1">
                         <CAARecord record="{record}"/>
                     </td>
                 </tr>
         {/each}
         </tbody>
 
-        <tbody id="SOA">
+        <tbody id="SOA" class="border">
         {#each soaRecords as record}
             <tr>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">{record.recordType}</td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">
+                <td class="px-6 align-middle text-s whitespace-nowrap p-1">{record.recordType}</td>
+                <td class="px-6 align-middle text-s whitespace-nowrap p-1">
                     <SOARecord record="{record}"/>
                 </td>
             </tr>
         {/each}
         </tbody>
 
-        <tbody id="Other">
+        <tbody id="Other" class="border">
         {#each otherRecords as record}
             <tr>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">{record.recordType}</td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-s whitespace-nowrap p-4">
+                <td class="px-6 align-middle text-s whitespace-nowrap p-1">{record.recordType}</td>
+                <td class="px-6 align-middle text-s whitespace-nowrap p-1">
                     {JSON.stringify(record)}
                 </td>
             </tr>
