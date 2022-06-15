@@ -4,12 +4,14 @@
     import {domainRecords} from './store.ts';
     import axios from "axios";
     import Records from './components/Records.svelte'
+    import ErrorAlert from './components/ErrorAlert.svelte'
 
     const API_URL = `dns/`
 
     let domainValid = false;
     let domain = ''
     let errored = false;
+    let errorMessage = ''
     let loading = false;
     let records;
     let promise;
@@ -24,6 +26,7 @@
         if (domainValid) {
             let url = `${API_URL}${domain}`
             errored = false;
+            errorMessage = ''
             loading = true;
             promise = axios
                 .get(url)
@@ -42,15 +45,34 @@
                 .finally(() => loading = false)
         } else {
             errored = true;
+            errorMessage = '<b>' + domain + '</b> is not a valid domain name'
         }
     }
 
     function validateDomain() {
-        domainValid = /.+\..+/.test(domain);
+        domainValid = /^.+\..+$/.test(domain);
+    }
+
+    function containsAlphaNumericCharacters(value) {
+        return /^[a-zA-Z0-9-.]*$/.test(value);
+    }
+
+    function handleDomainInput(event) {
+        let oldValue = domain;
+        let newValue = event.target.value;
+
+        console.log(oldValue, newValue, "containsAlphaNumericCharacters", containsAlphaNumericCharacters(newValue));
+
+        if (containsAlphaNumericCharacters(newValue)) {
+            domain = newValue;
+            validateDomain();
+        } else {
+            event.target.value = oldValue;
+        }
     }
 
     onMount(async () => {
-        await fetchData();
+        // no need to do anything on launch
     });
 </script>
 
@@ -63,31 +85,35 @@
 <main>
     <section class="relative block px-20 pt-4 pb-8 h-300-px">
         <h1 class="py-4 font-bold text-4xl text-blueGray-600">Query DNS records</h1>
-        <form>
-        <div class="flex">
-                <div class="flex-1">
+        <form on:submit|preventDefault={() => fetchData()}>
+        <div class="flex flex-row">
+                <div class="w-80">
                     <label
                             class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                             for="domain-name"
                     >
                         Enter a domain name:
                     </label>
-                    <input bind:value={domain}
-                           class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                    <input
+                           class="border-0 px-3 py-3 w-full placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                            id="domain-name"
-                           on:change={() => validateDomain()}
+                           on:input|preventDefault={handleDomainInput}
+                           on:change={() => fetchData()}
                            placeholder="google.com"
                            type="domain"
                     />
                 </div>
-                <div class="text-center flex-none py-6 ml-2">
+                <div class="text-center py-6 ml-2 w-fit">
                     <button on:click={() => fetchData()}
-                            class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                            class="bg-blueGray-800 text-black active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                             type="button">
-                        Query
+                        Report
                     </button>
                 </div>
         </div>
+        {#if errored && errorMessage !== ""}
+            <ErrorAlert message="{errorMessage}" />
+        {/if}
         </form>
     </section>
     <section class="relative px-20 py-1 bg-blueGray-200">
