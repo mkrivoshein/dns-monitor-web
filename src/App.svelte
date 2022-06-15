@@ -61,8 +61,6 @@
         let oldValue = domain;
         let newValue = event.target.value;
 
-        console.log(oldValue, newValue, "containsAlphaNumericCharacters", containsAlphaNumericCharacters(newValue));
-
         if (containsAlphaNumericCharacters(newValue)) {
             domain = newValue;
             validateDomain();
