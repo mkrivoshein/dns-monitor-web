@@ -5,6 +5,7 @@
     import axios from "axios";
     import Records from './components/Records.svelte'
     import ErrorAlert from './components/ErrorAlert.svelte'
+    import Footer from './components/Footer.svelte'
 
     const API_URL = `dns/`
 
@@ -135,3 +136,4 @@
         </div>
     </section>
 </main>
+<Footer/>
