@@ -16,7 +16,7 @@ export default defineConfig({
   server: {
     proxy: {
       '^/dns/.*': {
-        target: 'http://localhost:8001',
+        target: 'https://api.agencyapi.io',
         changeOrigin: true
         // rewrite: (path) => path.replace(/^\/api/, '')
       }
