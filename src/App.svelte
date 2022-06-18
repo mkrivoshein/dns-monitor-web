@@ -1,5 +1,5 @@
 <script>
-    import TailwindCss from './TailwindCSS.svelte';
+    import './Tailwind.css';
     import {onMount} from "svelte";
     import {domainRecords} from './store.ts';
     import axios from "axios";
@@ -78,8 +78,6 @@
 <svelte:head>
 
 </svelte:head>
-
-<TailwindCss/>
 
 <main>
     <section class="relative block px-20 pt-4 pb-8 h-300-px">
