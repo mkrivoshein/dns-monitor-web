@@ -2,12 +2,10 @@
     import './Tailwind.css';
     import {onMount} from "svelte";
     import {domainRecords} from './store.ts';
-    import axios from "axios";
     import Records from './components/Records.svelte'
     import ErrorAlert from './components/ErrorAlert.svelte'
     import Footer from './components/Footer.svelte'
-
-    const API_URL = `dns/`
+    import dnsClient, {subDomains} from './DnsClient'
 
     let domainValid = false;
     let domain = ''
@@ -15,35 +13,22 @@
     let errorMessage = ''
     let loading = false;
     let records;
-    let promise;
 
     domainRecords.subscribe(value => {
         records = value;
     });
 
-    function fetchData() {
+    async function fetchData() {
         // this.url = `${API_URL}${this.domain}`
         // this.records = await (await fetch(this.url)).json()
         if (domainValid) {
-            let url = `${API_URL}${domain}`
             errored = false;
             errorMessage = ''
             loading = true;
-            promise = axios
-                .get(url)
-                .then(response => {
-                    console.log('response.JSON:', {
-                        message: 'Request received',
-                        data: response.data
-                    });
-                    domainRecords.set(response.data.records)
-                    //this.errored = false
-                })
-                .catch(error => {
-                    console.log(error)
-                    //this.errored = true
-                })
-                .finally(() => loading = false)
+            // clear current state
+            domainRecords.set(new Map());
+            // load it afresh
+            await dnsClient.updateDomainRecords(domain, subDomains, error => console.log(error), () => loading = false)
         } else {
             errored = true;
             errorMessage = '<b>' + domain + '</b> is not a valid domain name'
@@ -128,7 +113,18 @@
                     </div>
                 </div>
                 <div class="block w-full py-1 overflow-x-auto">
-                    <Records/>
+                    <table class="items-center w-full bg-transparent border border-collapse border-solid border-x-0 border-y-1">
+                        <thead>
+                        <tr class="border bg-blueGray-200">
+                            <th class="px-6 align-middle py-3 text-s uppercase whitespace-nowrap font-semibold text-left">Subdomain</th>
+                            <th class="px-6 align-middle py-3 text-s uppercase whitespace-nowrap font-semibold text-left">Type</th>
+                            <th class="px-6 align-middle py-3 text-s uppercase whitespace-nowrap font-semibold text-left">Content</th>
+                        </tr>
+                        </thead>
+                        {#each subDomains as subDomain}
+                            <Records subDomain="{subDomain}" domain="{domain}"/>
+                        {/each}
+                    </table>
                 </div>
             </div>
         </div>
