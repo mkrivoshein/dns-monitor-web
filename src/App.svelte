@@ -85,7 +85,7 @@
                            type="domain"
                     />
                 </div>
-                <div class="text-center py-6 ml-2 w-fit">
+                <div class="text-center  py-14 ml-4 sm:py-6 w-fit">
                     <button on:click={() => fetchData()}
                             class="bg-blueGray-100 text-blueGrey-900 active:bg-blueGray-900 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                             type="button">
@@ -98,11 +98,11 @@
         {/if}
         </form>
     </section>
-    <section class="relative px-20 py-1">
+    <section class=" relative px-20 py-1">
         <div class="flex flex-wrap mt-1">
             <div class="w-full mb-2">
                 <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded">
-                    <div class="rounded-t mb-0 px-4 py-3 border-0">
+                    <div class=" rounded-t mb-0 px-4 py-3 border-0">
                         <div class="flex flex-wrap items-center">
                             <div class="relative w-full px-0 max-w-full flex-grow flex-1">
                                 <h3 class="font-semibold text-lg text-blueGray-700">
@@ -112,13 +112,14 @@
                         </div>
                     </div>
                 </div>
+               
                 <div class="block w-full py-1 overflow-x-auto">
-                    <table class="items-center w-full bg-transparent border border-collapse border-solid border-x-0 border-y-1">
+                    <table class=" table-auto items-center w-full  bg-transparent   border border-collapse border-solid border-x-0 border-y-0">
                         <thead>
-                        <tr class="border bg-blueGray-200">
-                            <th class="px-6 align-middle py-3 text-s uppercase whitespace-nowrap font-semibold text-left">Subdomain</th>
-                            <th class="px-6 align-middle py-3 text-s uppercase whitespace-nowrap font-semibold text-left">Type</th>
-                            <th class="px-6 align-middle py-3 text-s uppercase whitespace-nowrap font-semibold text-left">Content</th>
+                        <tr class="border bg-blueGray-200 text-2xs ">
+                            <th class="px-0.4  w-10 sm:w-screen  align-middle py-3 text-2xs uppercase whitespace-normal   break-word font-semibold text-left">Subdomain</th>
+                            <th class="px-0.4  w-10  sm:w-screen align-middle py-3 text-2xs uppercase whitespace-normal break-word  font-semibold text-left">Type</th>
+                            <th class="px-0  w-10  sm:w-screen  align-middle py-3 text-2xs uppercase whitespace-normal  break-word font-semibold text-left">Content</th>
                         </tr>
                         </thead>
                         {#each subDomains as subDomain}
@@ -128,6 +129,7 @@
                 </div>
             </div>
         </div>
+      
     </section>
 </main>
 <Footer/>
