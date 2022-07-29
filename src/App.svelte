@@ -65,7 +65,7 @@
 </svelte:head>
 
 <main>
-    <section class="relative block px-20 pt-4 pb-8 h-300-px">
+    <section class="relative block px-4 pt-4 pb-8 h-300-px">
         <h1 class="py-4 font-bold text-4xl text-blueGray-900">Query DNS records</h1>
         <form on:submit|preventDefault={() => fetchData()}>
         <div class="flex flex-row">
@@ -77,7 +77,7 @@
                         Enter a domain name:
                     </label>
                     <input
-                           class="border-0 px-3 py-3 w-full placeholder-blueGray-300 text-blueGray-900 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                           class="border-0 px-3 py-8 w-full placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                            id="domain-name"
                            on:input|preventDefault={handleDomainInput}
                            on:change={() => fetchData()}
@@ -98,7 +98,7 @@
         {/if}
         </form>
     </section>
-    <section class=" relative px-20 py-1">
+    <section class=" relative px-3 py-1">
         <div class="flex flex-wrap mt-1">
             <div class="w-full mb-2">
                 <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded">
@@ -114,14 +114,15 @@
                 </div>
                
                 <div class="block w-full py-1 overflow-x-auto">
-                    <table class=" table-auto items-center w-full  bg-transparent   border border-collapse border-solid border-x-0 border-y-0">
-                        <thead>
-                        <tr class="border bg-blueGray-200 text-2xs ">
-                            <th class="px-0.4  w-10 sm:w-screen  align-middle py-3 text-2xs uppercase whitespace-normal   break-word font-semibold text-left">Subdomain</th>
-                            <th class="px-0.4  w-10  sm:w-screen align-middle py-3 text-2xs uppercase whitespace-normal break-word  font-semibold text-left">Type</th>
-                            <th class="px-0  w-10  sm:w-screen  align-middle py-3 text-2xs uppercase whitespace-normal  break-word font-semibold text-left">Content</th>
+                    <table class=" table-fixed items-center w-full text-2xs whitespace-pre-wrap break-all   bg-transparent border border-collapse border-solid border-x-0 border-y-0">
+                        <thead >
+                        <tr class="border bg-blueGray-200"> 
+                      
+                            <th class="px-0.4   sm:w-screen  align-middle py-3 text-2xs uppercase whitespace-normal   break-word font-semibold text-left">Subdomain</th>
+                            <th class="px-0.4    sm:w-screen align-middle py-3 text-2xs uppercase whitespace-normal break-word  font-semibold text-left">Type</th>
+                            <th class="px-0    sm:w-screen  align-middle py-3 text-2xs uppercase whitespace-normal  break-word font-semibold text-left">Content</th>
                         </tr>
-                        </thead>
+                        </thead >
                         {#each subDomains as subDomain}
                             <Records subDomain="{subDomain}" domain="{domain}"/>
                         {/each}
