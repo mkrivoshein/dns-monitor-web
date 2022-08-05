@@ -112,15 +112,15 @@
                         </div>
                     </div>
                 </div>
-               
-                <div class="block w-full py-1 overflow-x-auto">
-                    <table class=" table-auto items-center w-full text-2xs  lg:text-lg whitespace-pre-wrap break-all   bg-transparent border border-collapse border-solid border-x-0 border-y-0">
-                        <thead >
-                        <tr class="border bg-blueGray-200"> 
+                 <div class = "container mx-auto 	w-40">
+                <div class= "block w-full py-1  overflow-x-auto ">
+                    <table class=" table-cell  items-center w-full  text-xs lg:text-lg break-words  bg-transparent border border-solid border-collapse  border-x-0 border-y-0">
+                        <thead>
+                        <tr class="border bg-blueGray-200" > 
                       
-                            <th class="px-0.4   sm:w-screen  align-middle py-3  lg:text-lg uppercase whitespace-normal   break-word font-semibold text-left">Subdomain</th>
-                            <th class="px-0.4    sm:w-screen align-middle py-3 lg:text-lg uppercase whitespace-normal break-word  font-semibold text-left">Type</th>
-                            <th class="px-0    sm:w-screen  align-middle py-3 lg:text-lg uppercase whitespace-normal  break-word font-semibold text-left">Content</th>
+                            <th class="px-0.4 w-screen  py-3 lg:text-lg align-middle uppercase    break-words font-semibold text-left">Subdomain</th>
+                            <th class="px-0.4 w-screen py-3 lg:text-lg align-middle uppercase  break-words  font-semibold text-left">Type</th>
+                            <th class="px-0   w-screen  py-3 lg:text-lg align-middle uppercase  break-words font-semibold text-left">Content</th>
                         </tr>
                         </thead >
                         {#each subDomains as subDomain}
@@ -128,7 +128,8 @@
                         {/each}
                     </table>
                 </div>
-            </div>
+           </div>
+         </div>
         </div>
       
     </section>
