@@ -71,13 +71,13 @@
         <div class="flex flex-row">
                 <div class="w-80">
                     <label
-                            class="block uppercase text-blueGray-900 text-xs font-bold mb-2"
+                            class="block uppercase text-blueGray-900 text-xs lg:text-lg font-bold mb-2"
                             for="domain-name"
                     >
                         Enter a domain name:
                     </label>
                     <input
-                           class="border-0 px-3 py-8 w-full placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                           class="border-0 px-3 py-3  w-full placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm lg:text-lg  shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                            id="domain-name"
                            on:input|preventDefault={handleDomainInput}
                            on:change={() => fetchData()}
@@ -85,9 +85,9 @@
                            type="domain"
                     />
                 </div>
-                <div class="text-center  py-14 ml-4 sm:py-6 w-fit">
+                <div class="text-center  py-6 ml-4 sm:py-6 w-fit">
                     <button on:click={() => fetchData()}
-                            class="bg-blueGray-100 text-blueGrey-900 active:bg-blueGray-900 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                            class="bg-blueGray-100 text-blueGrey-900 active:bg-blueGray-900 text-sm lg:text-xl font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                             type="button">
                         Report
                     </button>
@@ -104,7 +104,7 @@
                 <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded">
                     <div class=" rounded-t mb-0 px-4 py-3 border-0">
                         <div class="flex flex-wrap items-center">
-                            <div class="relative w-full px-0 max-w-full flex-grow flex-1">
+                            <div class="relative w-full  px-0 max-w-full flex-grow flex-1">
                                 <h3 class="font-semibold text-lg text-blueGray-700">
                                     Results
                                 </h3>
@@ -112,15 +112,15 @@
                         </div>
                     </div>
                 </div>
-               
-                <div class="block w-full py-1 overflow-x-auto">
-                    <table class=" table-fixed items-center w-full text-2xs whitespace-pre-wrap break-all   bg-transparent border border-collapse border-solid border-x-0 border-y-0">
-                        <thead >
-                        <tr class="border bg-blueGray-200"> 
+                 <div class = "container mx-auto 	w-40">
+                <div class= "block w-full py-1  overflow-x-auto ">
+                    <table class=" table-cell  items-center w-full  text-xs lg:text-lg break-words  bg-transparent border border-solid border-collapse  border-x-0 border-y-0">
+                        <thead>
+                        <tr class="border bg-blueGray-200" > 
                       
-                            <th class="px-0.4   sm:w-screen  align-middle py-3 text-2xs uppercase whitespace-normal   break-word font-semibold text-left">Subdomain</th>
-                            <th class="px-0.4    sm:w-screen align-middle py-3 text-2xs uppercase whitespace-normal break-word  font-semibold text-left">Type</th>
-                            <th class="px-0    sm:w-screen  align-middle py-3 text-2xs uppercase whitespace-normal  break-word font-semibold text-left">Content</th>
+                            <th class="px-0.4 w-screen  py-3 lg:text-lg align-middle uppercase    break-words font-semibold text-left">Subdomain</th>
+                            <th class="px-0.4 w-screen py-3 lg:text-lg align-middle uppercase  break-words  font-semibold text-left">Type</th>
+                            <th class="px-0   w-screen  py-3 lg:text-lg align-middle uppercase  break-words font-semibold text-left">Content</th>
                         </tr>
                         </thead >
                         {#each subDomains as subDomain}
@@ -128,7 +128,8 @@
                         {/each}
                     </table>
                 </div>
-            </div>
+           </div>
+         </div>
         </div>
       
     </section>
