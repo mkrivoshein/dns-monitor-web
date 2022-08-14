@@ -24,6 +24,8 @@
     "vite": "^2.9.12"
   },
   "dependencies": {
-    "axios": "^0.26.1"
+    "axios": "^0.26.1",
+    "carbon-components-svelte": "^0.67.9",
+    "svelte-routing": "^1.6.0"
   }
 }
