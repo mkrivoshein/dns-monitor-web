@@ -14,7 +14,7 @@
     "@tsconfig/svelte": "^2.0.1",
     "autoprefixer": "^10.4.7",
     "daisyui": "^2.15.4",
-    "postcss": "^8.4.14",
+    "postcss": "^8.4.16",
     "svelte": "^3.48.0",
     "svelte-check": "^2.7.2",
     "svelte-preprocess": "^4.10.7",
