@@ -1,13 +1,9 @@
 <script>
     import './Tailwind.css';
-    import {onMount} from "svelte";
-    import {domainRecords} from './store.ts';
+    import {onMount} from "svelte";  
     import Footer from './components/Footer.svelte'
-    import dnsClient, {subDomains} from './DnsClient'
-
-
-  import { Router, links, Route } from "svelte-routing";
-  import {
+    import { Router, links, Route } from "svelte-routing";
+    import {
     Header,
     HeaderNav,
     HeaderNavItem,
@@ -16,122 +12,119 @@
     SideNavLink,
     SkipToContent,
     Content,
-    InlineNotification,
+    InlineNotification
+    
+    
   } from "carbon-components-svelte";
+    import "carbon-components-svelte/css/white.css";
+    import About from "./routes/About.svelte";
+    import Help from "./routes/Help.svelte";
+    import Contacts from "./routes/Contacts.svelte";
+    import Home from "./routes/Home.svelte";
+    import Registration from "./routes/Registration.svelte";
+    import Login from "./routes/Login.svelte"; 
+    import Keycloak from "keycloak-js"; 
+    import "/src/keycloak.json";
+	 
+   var location = false;
+     
+   let theme = "white"; // "white" | "g10" | "g80" | "g90" | "g100"
+    $: document.documentElement.setAttribute("theme", theme);
 
-  
+    //connection with localhost Keycloak
+    const initKeycloak = async () => {
+    const config = { url: 'http://localhost:8080/auth', realm: 'Myrealm', clientId: 'dns-monitor-web'};
+
+    const keycloak = new Keycloak(config);
+    
+    await keycloak
+            .init({ onLoad: 'login-required' })
+            .then(isAuthenticated => {
+                //user is authenticated
+             })
+             .catch(error => { console.log('keycloak error', error); });
+}
 
 
 
+let keycloak = new Keycloak();
 
-  import About from "./routes/About.svelte";
-  import Help from "./routes/Help.svelte";
-  import Contacts from "./routes/Contacts.svelte";
-  import Home from "./routes/Home.svelte";
-  import Authorization from "./routes/Authorization.svelte";
-  import Login from "./routes/Login.svelte";
+let loadData = function () {
+document.getElementById('username').innerText = keycloak.subject;
 
+let url = 'http://localhost:8080/admin/master/console/#/';
 
-  let isSideNavOpen = false;
+let req = new XMLHttpRequest();
+req.open('GET', url, true);
+req.setRequestHeader('Accept', 'application/json');
+req.setRequestHeader('Authorization', 'Bearer ' + keycloak.token);
 
-
-
-
-    let domainValid = false;
-    let domain = ''
-    let errored = false;
-    let errorMessage = ''
-    let loading = false;
-    let records;
-
-    domainRecords.subscribe(value => {
-        records = value;
-    });
-
-    async function fetchData() {
-        // this.url = `${API_URL}${this.domain}`
-        // this.records = await (await fetch(this.url)).json()
-        if (domainValid) {
-            errored = false;
-            errorMessage = ''
-            loading = true;
-            // clear current state
-            domainRecords.set(new Map());
-            // load it afresh
-            await dnsClient.updateDomainRecords(domain, subDomains, error => console.log(error), () => loading = false)
-        } else {
-            errored = true;
-            errorMessage = '<b>' + domain + '</b> is not a valid domain name'
-        }
+req.onreadystatechange = function () {
+if (req.readyState == 4) {
+    if (req.status == 200) {
+        alert('Success');
+    } else if (req.status == 403) {
+        alert('Forbidden');
     }
+}
+}
 
-    function validateDomain() {
-        domainValid = /^.+\..+$/.test(domain);
-    }
+req.send();
+}
 
-    function containsAlphaNumericCharacters(value) {
-        return /^[a-zA-Z0-9-._#$%]*$/.test(value);
-    }
 
-    function handleDomainInput(event) {
-        let oldValue = domain;
-        let newValue = event.target.value;
+   keycloak.updateToken(70).then((refreshed) => {
+     if (refreshed) {
+        loadData();
+      } else {
+        alert('Failed to refresh token');
+      }
+    })
 
-        if (containsAlphaNumericCharacters(newValue)) {
-            domain = newValue;
-            validateDomain();
-        } else {
-            event.target.value = oldValue;
-        }
-    }
 
-    onMount(async () => {
-        // no need to do anything on launch
-    });
-</script>
+    let isSideNavOpen = false;
+
+
+  </script>
+
 
 <svelte:head>
-  <link
-  rel="stylesheet"
-  href="https://unpkg.com/carbon-components-svelte/css/white.css"
-/>
+ 
 </svelte:head>
 
-
-<div class = " container w-screen ">
-
-   
+<body onload= {initKeycloak}>
+  <div class = " relative block"> 
     <div use:links>
     <Router url="">
-      <Header
-      
-        bind:isSideNavOpen
-        expandedByDefault={false}
-      
-      >
+      <Header  company="GUERY" platformName="DNS Records" 
+      bind:isSideNavOpen
+        expandedByDefault={false}>
+     
         <div slot="skip-to-content">
-        
-  
     </div>  
-   
-   
-        <HeaderNav class = " relative w-full flex flex-wrap items-center justify-between py-4 bg-gray-100 text-gray-500 hover:text-gray-700 focus:text-gray-700 shadow-lg navbar navbar-expand-lg navbar-light">
-                  
-            <div class= "  hidden  sm:flex sm:flex-row py-4 navbar-nav   items-left pl-0 list-style-none mr-auto" >
-              <div class = "flex flex-row">
-                 <HeaderNavItem   text="Query DNS Records "  href ="/" class = "uppercase font-bold bg-gray-100 text-gray-500 " />         
+  
+        <HeaderNav>
+  
+            <div class= "  relative py-4 navbar-nav   items-center pl-0 list-style-none mr-auto" >
+              <div class = "flex flex-kol">
+                 <HeaderNavItem   text="To main"  href ="/"  />         
                <HeaderNavItem text="About" href="/about"  />
                    <HeaderNavItem text="Help" href="/help" />
                 <HeaderNavItem text="Contacts" href="/contacts"/>
-            <div class = "absolute inset-y-0 right-0 flex flex-row">
-                 <HeaderNavItem text="Sign in "  href ="/login"  />       
-              <HeaderNavItem text="Sign up" href="/auth" />
+            <div class = "fixed right-0 uppercase  px-20 flex flex row">
+              <HeaderNavItem text="Sign in "  href ='http://localhost:8080/realms/Myrealm/account' /> 
+              <HeaderNavItem text="Sign up "  href ='http://localhost:8080/realms/Myrealm/account' />
+            
+                 
                </div>
             </div>
           </div>
         </HeaderNav>
-
-        <SideNav bind:isOpen={isSideNavOpen} class ="relative display:flex flex-grow w-full md:display-none collapse navbar-collapse">
+      
+        <SideNav bind:isOpen={isSideNavOpen}>
+          <div class= "   sm:flex sm:flex-row py-4 navbar-nav   items-left pl-10 list-style-none mr-auto" >
+            <div class = "flex flex-row">
+          
           <SideNavItems>
             <SideNavLink 
             text="Query DNS Records"
@@ -157,19 +150,22 @@
             class = "display:flex flex-grow  sm:hidden"
             on:click={() => (isSideNavOpen = !isSideNavOpen)} 
           />
+         
           <SideNavLink
           text="Sign in"
-          href="/login"
-          class = "display:flex flex-grow  sm:hidden"
+          href="http://localhost:8080/realms/Myrealm/account"
+          class = "display:flex flex-grow  uppercase  sm:hidden"
           on:click={() => (isSideNavOpen = !isSideNavOpen)} 
         />
         <SideNavLink
         text="Sign up"
-        href="/auth"
-        class = "display:flex flex-grow  sm:hidden"
+        href="http://localhost:8080/realms/Myrealm/account"
+        class = "display:flex flex-grow  uppercase sm:hidden"
         on:click={() => (isSideNavOpen = !isSideNavOpen)} 
            />
           </SideNavItems>
+          </div>
+          </div>
         </SideNav>
         
       </Header>
@@ -179,27 +175,28 @@
         <Route path="/about" component={About} />
         <Route path="/help" component={Help} />
         <Route path="/contacts" component={Contacts} />
-        <Route path="/login" component={Login} />
-        <Route path="/auth" component={Authorization} />
+        <!--<Route path="/login" component={Login} />
+        <Route path="/registration" component={Registration} />-->
         <Route let:location>
           <InlineNotification
             hideCloseButton
             title="Error:"
-            subtitle={`No route found for ${location.pathname}`}
+            subtitle={`No route found for this route}`}
           />
         </Route>
         <SkipToContent  class = "hidden"/>
       </Content>
     </Router>
   </div>
-
-
+ 
+ 
 </div>
 
 <slot />
 
-<main class = " container w-full ">
-   
-
+<main class = "absolute block f-full">
+  
 </main>
+
+</body>
 <Footer/>

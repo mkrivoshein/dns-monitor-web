@@ -26,6 +26,9 @@
   "dependencies": {
     "axios": "^0.26.1",
     "carbon-components-svelte": "^0.67.9",
+    "core-js": "^3.24.1",
+    "keycloak-admin": "^1.14.22",
+    "keycloak-js": "^19.0.1",
     "svelte-routing": "^1.6.0"
   }
 }
