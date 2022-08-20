@@ -1,36 +1,15 @@
 <script>
-    import './Tailwind.css';
-    import {onMount} from "svelte";  
+    import './Tailwind.css' 
     import Footer from './components/Footer.svelte'
-    import { Router, links, Route } from "svelte-routing";
-    import {
-    Header,
-    HeaderNav,
-    HeaderNavItem,
-    SideNav,
-    SideNavItems,
-    SideNavLink,
-    SkipToContent,
-    Content,
-    InlineNotification
-    
-    
-  } from "carbon-components-svelte";
-    import "carbon-components-svelte/css/white.css";
-    import About from "./routes/About.svelte";
-    import Help from "./routes/Help.svelte";
-    import Contacts from "./routes/Contacts.svelte";
-    import Home from "./routes/Home.svelte";
-    import Registration from "./routes/Registration.svelte";
-    import Login from "./routes/Login.svelte"; 
-    import Keycloak from "keycloak-js"; 
-    import "/src/keycloak.json";
+    import { Router, links, Route } from 'svelte-routing'
+    import About from './routes/About.svelte'
+    import Help from './routes/Help.svelte'
+    import Contacts from './routes/Contacts.svelte'
+    import Home from './routes/Home.svelte'
+    import Keycloak from 'keycloak-js'
+    import './keycloak.json'
 	 
-   var location = false;
-     
-   let theme = "white"; // "white" | "g10" | "g80" | "g90" | "g100"
-    $: document.documentElement.setAttribute("theme", theme);
-
+ 
     //connection with localhost Keycloak
     const initKeycloak = async () => {
     const config = { url: 'http://localhost:8080/auth', realm: 'Myrealm', clientId: 'dns-monitor-web'};
@@ -46,9 +25,7 @@
 }
 
 
-
 let keycloak = new Keycloak();
-
 let loadData = function () {
 document.getElementById('username').innerText = keycloak.subject;
 
@@ -80,123 +57,99 @@ req.send();
         alert('Failed to refresh token');
       }
     })
-
-
-    let isSideNavOpen = false;
-
+   
 
   </script>
 
 
 <svelte:head>
- 
+
 </svelte:head>
 
 <body onload= {initKeycloak}>
-  <div class = " relative block"> 
-    <div use:links>
+
+    <div use:links >
     <Router url="">
-      <Header  company="GUERY" platformName="DNS Records" 
-      bind:isSideNavOpen
-        expandedByDefault={false}>
-     
-        <div slot="skip-to-content">
-    </div>  
-  
-        <HeaderNav>
-  
-            <div class= "  relative py-4 navbar-nav   items-center pl-0 list-style-none mr-auto" >
-              <div class = "flex flex-kol">
-                 <HeaderNavItem   text="To main"  href ="/"  />         
-               <HeaderNavItem text="About" href="/about"  />
-                   <HeaderNavItem text="Help" href="/help" />
-                <HeaderNavItem text="Contacts" href="/contacts"/>
-            <div class = "fixed right-0 uppercase  px-20 flex flex row">
-              <HeaderNavItem text="Sign in "  href ='http://localhost:8080/realms/Myrealm/account' /> 
-              <HeaderNavItem text="Sign up "  href ='http://localhost:8080/realms/Myrealm/account' />
-            
-                 
-               </div>
-            </div>
-          </div>
-        </HeaderNav>
-      
-        <SideNav bind:isOpen={isSideNavOpen}>
-          <div class= "   sm:flex sm:flex-row py-4 navbar-nav   items-left pl-10 list-style-none mr-auto" >
-            <div class = "flex flex-row">
-          
-          <SideNavItems>
-            <SideNavLink 
-            text="Query DNS Records"
-            href="/"
-            class = "display:flex flex-grow  sm:hidden"
-            on:click={() => (isSideNavOpen = !isSideNavOpen)} 
-            />
-            <SideNavLink
-              text="About"
-              href="/about"
-              class = "display:flex flex-grow   sm:hidden  "
-              on:click={() => (isSideNavOpen = !isSideNavOpen)} 
-            />
-            <SideNavLink
-              text="Help"
-              href="/help"
-              class = "display:flex flex-grow  sm:hidden"
-              on:click={() => (isSideNavOpen = !isSideNavOpen)} 
-            />
-            <SideNavLink
-            text="Contacts"
-            href="/contacts"
-            class = "display:flex flex-grow  sm:hidden"
-            on:click={() => (isSideNavOpen = !isSideNavOpen)} 
-          />
-         
-          <SideNavLink
-          text="Sign in"
-          href="http://localhost:8080/realms/Myrealm/account"
-          class = "display:flex flex-grow  uppercase  sm:hidden"
-          on:click={() => (isSideNavOpen = !isSideNavOpen)} 
-        />
-        <SideNavLink
-        text="Sign up"
-        href="http://localhost:8080/realms/Myrealm/account"
-        class = "display:flex flex-grow  uppercase sm:hidden"
-        on:click={() => (isSideNavOpen = !isSideNavOpen)} 
-           />
-          </SideNavItems>
-          </div>
-          </div>
-        </SideNav>
+
+  <!-- Navbar goes here -->
+  <nav class="bg-white shadow-lg">
+    <div class="w-full mx-auto px-4">
+      <div class="flex justify-between">
+        <div class="flex space-x-7">
+          <div>
+            <!-- Website Logo -->
+            <a href="/" class="flex items-center py-4 px-2">
+              <img src="favicon.svg" alt="Logo" class="h-8 w-8 mr-2">
+              <span class="text-green-500 text-2xl md:text-3xl lg:text-4xl font-bold p-4">Query DNS Records</span>
+            </a>
         
-      </Header>
-  
-      <Content>
-        <Route path="/" component={Home} />
-        <Route path="/about" component={About} />
-        <Route path="/help" component={Help} />
-        <Route path="/contacts" component={Contacts} />
-        <!--<Route path="/login" component={Login} />
-        <Route path="/registration" component={Registration} />-->
-        <Route let:location>
-          <InlineNotification
-            hideCloseButton
-            title="Error:"
-            subtitle={`No route found for this route}`}
-          />
-        </Route>
-        <SkipToContent  class = "hidden"/>
-      </Content>
-    </Router>
-  </div>
- 
- 
-</div>
+          </div>
+          <!-- Primary Navbar items -->
+          <div class="hidden md:flex items-center space-x-1">
+          <a href = "/" class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300"> Home</a>
+         
+            <a  href="/about" class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300">About </a>
+            <a href="/help" class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300">Help</a>
+            <a href="/contacts" class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300">Contacts</a>
+          </div>
+        </div>
+        <!-- Secondary Navbar items -->
+        <div class="hidden md:flex items-center space-x-3 ">
+          <a href="http://localhost:8080/realms/Myrealm/account" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-400 hover:text-green-500 transition duration-300">Log In</a>
+          <a href="http://localhost:8080/realms/Myrealm/account" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-400 hover:text-green-500 transition duration-300">Sign Up</a>
+        </div>
+        <!-- Mobile menu button -->
+        <div class="md:hidden flex items-center">
+          <button class="outline-none mobile-menu-button">
+          <svg class=" w-6 h-6 text-gray-500 hover:text-green-500 "
+            x-show="!showMenu"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+        </div>
+      </div>
+    </div>
+    <!-- mobile menu -->
+    <div class="hidden mobile-menu">
+      <ul class="">
+        <li class="active"><a href="/" class="block text-sm px-2 py-4 text-white bg-green-500 font-semibold">Home</a></li>
+        <li><a href="/about" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">About</a></li>
+        <li><a href="/help" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Help</a></li>
+        <li><a href="/contacts" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Contacts </a></li>
+        <li><a href="http://localhost:8080/realms/Myrealm/account" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Log In</a></li>
+       <li> <a href="http://localhost:8080/realms/Myrealm/account" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Sign Up</a></li>
+      </ul>
+    </div>
+    <script>
+      const btn = document.querySelector("button.mobile-menu-button");
+      const menu = document.querySelector(".mobile-menu");
+    
+      btn.addEventListener("click", () => {
+        menu.classList.toggle("hidden");
+      });
+      </script>
+  </nav> 
+    
+<Route path="/" component={Home} />
+<Route path="/about" component={About} />
+<Route path="/help" component={Help} />
+<Route path="/contacts" component={Contacts} />
 
-<slot />
 
+
+</Router>
+<slot></slot>
+
+ 
 <main class = "absolute block f-full">
   
 </main>
-
 </body>
 <Footer/>
