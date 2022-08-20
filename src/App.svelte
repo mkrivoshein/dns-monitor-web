@@ -1,137 +1,202 @@
 <script>
     import './Tailwind.css';
-    import {onMount} from "svelte";
-    import {domainRecords} from './store.ts';
-    import Records from './components/Records.svelte'
-    import ErrorAlert from './components/ErrorAlert.svelte'
+    import {onMount} from "svelte";  
     import Footer from './components/Footer.svelte'
-    import dnsClient, {subDomains} from './DnsClient'
+    import { Router, links, Route } from "svelte-routing";
+    import {
+    Header,
+    HeaderNav,
+    HeaderNavItem,
+    SideNav,
+    SideNavItems,
+    SideNavLink,
+    SkipToContent,
+    Content,
+    InlineNotification
+    
+    
+  } from "carbon-components-svelte";
+    import "carbon-components-svelte/css/white.css";
+    import About from "./routes/About.svelte";
+    import Help from "./routes/Help.svelte";
+    import Contacts from "./routes/Contacts.svelte";
+    import Home from "./routes/Home.svelte";
+    import Registration from "./routes/Registration.svelte";
+    import Login from "./routes/Login.svelte"; 
+    import Keycloak from "keycloak-js"; 
+    import "/src/keycloak.json";
+	 
+   var location = false;
+     
+   let theme = "white"; // "white" | "g10" | "g80" | "g90" | "g100"
+    $: document.documentElement.setAttribute("theme", theme);
 
-    let domainValid = false;
-    let domain = ''
-    let errored = false;
-    let errorMessage = ''
-    let loading = false;
-    let records;
+    //connection with localhost Keycloak
+    const initKeycloak = async () => {
+    const config = { url: 'http://localhost:8080/auth', realm: 'Myrealm', clientId: 'dns-monitor-web'};
 
-    domainRecords.subscribe(value => {
-        records = value;
-    });
+    const keycloak = new Keycloak(config);
+    
+    await keycloak
+            .init({ onLoad: 'login-required' })
+            .then(isAuthenticated => {
+                //user is authenticated
+             })
+             .catch(error => { console.log('keycloak error', error); });
+}
 
-    async function fetchData() {
-        // this.url = `${API_URL}${this.domain}`
-        // this.records = await (await fetch(this.url)).json()
-        if (domainValid) {
-            errored = false;
-            errorMessage = ''
-            loading = true;
-            // clear current state
-            domainRecords.set(new Map());
-            // load it afresh
-            await dnsClient.updateDomainRecords(domain, subDomains, error => console.log(error), () => loading = false)
-        } else {
-            errored = true;
-            errorMessage = '<b>' + domain + '</b> is not a valid domain name'
-        }
+
+
+let keycloak = new Keycloak();
+
+let loadData = function () {
+document.getElementById('username').innerText = keycloak.subject;
+
+let url = 'http://localhost:8080/admin/master/console/#/';
+
+let req = new XMLHttpRequest();
+req.open('GET', url, true);
+req.setRequestHeader('Accept', 'application/json');
+req.setRequestHeader('Authorization', 'Bearer ' + keycloak.token);
+
+req.onreadystatechange = function () {
+if (req.readyState == 4) {
+    if (req.status == 200) {
+        alert('Success');
+    } else if (req.status == 403) {
+        alert('Forbidden');
     }
+}
+}
 
-    function validateDomain() {
-        domainValid = /^.+\..+$/.test(domain);
-    }
+req.send();
+}
 
-    function containsAlphaNumericCharacters(value) {
-        return /^[a-zA-Z0-9-._#$%]*$/.test(value);
-    }
 
-    function handleDomainInput(event) {
-        let oldValue = domain;
-        let newValue = event.target.value;
+   keycloak.updateToken(70).then((refreshed) => {
+     if (refreshed) {
+        loadData();
+      } else {
+        alert('Failed to refresh token');
+      }
+    })
 
-        if (containsAlphaNumericCharacters(newValue)) {
-            domain = newValue;
-            validateDomain();
-        } else {
-            event.target.value = oldValue;
-        }
-    }
 
-    onMount(async () => {
-        // no need to do anything on launch
-    });
-</script>
+    let isSideNavOpen = false;
+
+
+  </script>
+
 
 <svelte:head>
-
+ 
 </svelte:head>
 
-<main>
-    <section class="relative block px-4 pt-4 pb-8 h-300-px">
-        <h1 class="py-4 font-bold text-4xl text-blueGray-900">Query DNS records</h1>
-        <form on:submit|preventDefault={() => fetchData()}>
-        <div class="flex flex-row">
-                <div class="w-80">
-                    <label
-                            class="block uppercase text-blueGray-900 text-xs lg:text-lg font-bold mb-2"
-                            for="domain-name"
-                    >
-                        Enter a domain name:
-                    </label>
-                    <input
-                           class="border-0 px-3 py-3  w-full placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm lg:text-lg  shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                           id="domain-name"
-                           on:input|preventDefault={handleDomainInput}
-                           on:change={() => fetchData()}
-                           placeholder="google.com"
-                           type="domain"
-                    />
-                </div>
-                <div class="text-center  py-6 ml-4 sm:py-6 w-fit">
-                    <button on:click={() => fetchData()}
-                            class="bg-blueGray-100 text-blueGrey-900 active:bg-blueGray-900 text-sm lg:text-xl font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                            type="button">
-                        Report
-                    </button>
-                </div>
-        </div>
-        {#if errored && errorMessage !== ""}
-            <ErrorAlert message="{errorMessage}" />
-        {/if}
-        </form>
-    </section>
-    <section class=" relative px-3 py-1">
-        <div class="flex flex-wrap mt-1">
-            <div class="w-full mb-2">
-                <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded">
-                    <div class=" rounded-t mb-0 px-4 py-3 border-0">
-                        <div class="flex flex-wrap items-center">
-                            <div class="relative w-full  px-0 max-w-full flex-grow flex-1">
-                                <h3 class="font-semibold text-lg text-blueGray-700">
-                                    Results
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                 <div class = "container mx-auto 	w-40">
-                <div class= "block w-full py-1  overflow-x-auto ">
-                    <table class=" table-cell  items-center w-full  text-xs lg:text-lg break-words  bg-transparent border border-solid border-collapse  border-x-0 border-y-0">
-                        <thead>
-                        <tr class="border bg-blueGray-200" > 
-                      
-                            <th class="px-0.4 w-screen  py-3 lg:text-lg align-middle uppercase    break-words font-semibold text-left">Subdomain</th>
-                            <th class="px-0.4 w-screen py-3 lg:text-lg align-middle uppercase  break-words  font-semibold text-left">Type</th>
-                            <th class="px-0   w-screen  py-3 lg:text-lg align-middle uppercase  break-words font-semibold text-left">Content</th>
-                        </tr>
-                        </thead >
-                        {#each subDomains as subDomain}
-                            <Records subDomain="{subDomain}" domain="{domain}"/>
-                        {/each}
-                    </table>
-                </div>
-           </div>
-         </div>
-        </div>
+<body onload= {initKeycloak}>
+  <div class = " relative block"> 
+    <div use:links>
+    <Router url="">
+      <Header  company="GUERY" platformName="DNS Records" 
+      bind:isSideNavOpen
+        expandedByDefault={false}>
+     
+        <div slot="skip-to-content">
+    </div>  
+  
+        <HeaderNav>
+  
+            <div class= "  relative py-4 navbar-nav   items-center pl-0 list-style-none mr-auto" >
+              <div class = "flex flex-kol">
+                 <HeaderNavItem   text="To main"  href ="/"  />         
+               <HeaderNavItem text="About" href="/about"  />
+                   <HeaderNavItem text="Help" href="/help" />
+                <HeaderNavItem text="Contacts" href="/contacts"/>
+            <div class = "fixed right-0 uppercase  px-20 flex flex row">
+              <HeaderNavItem text="Sign in "  href ='http://localhost:8080/realms/Myrealm/account' /> 
+              <HeaderNavItem text="Sign up "  href ='http://localhost:8080/realms/Myrealm/account' />
+            
+                 
+               </div>
+            </div>
+          </div>
+        </HeaderNav>
       
-    </section>
+        <SideNav bind:isOpen={isSideNavOpen}>
+          <div class= "   sm:flex sm:flex-row py-4 navbar-nav   items-left pl-10 list-style-none mr-auto" >
+            <div class = "flex flex-row">
+          
+          <SideNavItems>
+            <SideNavLink 
+            text="Query DNS Records"
+            href="/"
+            class = "display:flex flex-grow  sm:hidden"
+            on:click={() => (isSideNavOpen = !isSideNavOpen)} 
+            />
+            <SideNavLink
+              text="About"
+              href="/about"
+              class = "display:flex flex-grow   sm:hidden  "
+              on:click={() => (isSideNavOpen = !isSideNavOpen)} 
+            />
+            <SideNavLink
+              text="Help"
+              href="/help"
+              class = "display:flex flex-grow  sm:hidden"
+              on:click={() => (isSideNavOpen = !isSideNavOpen)} 
+            />
+            <SideNavLink
+            text="Contacts"
+            href="/contacts"
+            class = "display:flex flex-grow  sm:hidden"
+            on:click={() => (isSideNavOpen = !isSideNavOpen)} 
+          />
+         
+          <SideNavLink
+          text="Sign in"
+          href="http://localhost:8080/realms/Myrealm/account"
+          class = "display:flex flex-grow  uppercase  sm:hidden"
+          on:click={() => (isSideNavOpen = !isSideNavOpen)} 
+        />
+        <SideNavLink
+        text="Sign up"
+        href="http://localhost:8080/realms/Myrealm/account"
+        class = "display:flex flex-grow  uppercase sm:hidden"
+        on:click={() => (isSideNavOpen = !isSideNavOpen)} 
+           />
+          </SideNavItems>
+          </div>
+          </div>
+        </SideNav>
+        
+      </Header>
+  
+      <Content>
+        <Route path="/" component={Home} />
+        <Route path="/about" component={About} />
+        <Route path="/help" component={Help} />
+        <Route path="/contacts" component={Contacts} />
+        <!--<Route path="/login" component={Login} />
+        <Route path="/registration" component={Registration} />-->
+        <Route let:location>
+          <InlineNotification
+            hideCloseButton
+            title="Error:"
+            subtitle={`No route found for this route}`}
+          />
+        </Route>
+        <SkipToContent  class = "hidden"/>
+      </Content>
+    </Router>
+  </div>
+ 
+ 
+</div>
+
+<slot />
+
+<main class = "absolute block f-full">
+  
 </main>
+
+</body>
 <Footer/>
