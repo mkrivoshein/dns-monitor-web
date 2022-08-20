@@ -1,3 +1,7 @@
+
+
+
+
 <main>
 <h1 class="py-4 font-bold text-4xl text-blueGray-900">Query DNS records</h1> 
 <section class="relative block px-4 pt-4 pb-8  h-300-px">
@@ -18,4 +22,7 @@
                     </div>
 				      </div>
 					</section>
+
+
+
 </main>

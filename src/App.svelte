@@ -1,205 +1,155 @@
 <script>
-    import './Tailwind.css';
-    import {onMount} from "svelte";
-    import {domainRecords} from './store.ts';
+    import './Tailwind.css' 
     import Footer from './components/Footer.svelte'
-    import dnsClient, {subDomains} from './DnsClient'
+    import { Router, links, Route } from 'svelte-routing'
+    import About from './routes/About.svelte'
+    import Help from './routes/Help.svelte'
+    import Contacts from './routes/Contacts.svelte'
+    import Home from './routes/Home.svelte'
+    import Keycloak from 'keycloak-js'
+    import './keycloak.json'
+	 
+ 
+    //connection with localhost Keycloak
+    const initKeycloak = async () => {
+    const config = { url: 'http://localhost:8080/auth', realm: 'Myrealm', clientId: 'dns-monitor-web'};
+
+    const keycloak = new Keycloak(config);
+    
+    await keycloak
+            .init({ onLoad: 'login-required' })
+            .then(isAuthenticated => {
+                //user is authenticated
+             })
+             .catch(error => { console.log('keycloak error', error); });
+}
 
 
-  import { Router, links, Route } from "svelte-routing";
-  import {
-    Header,
-    HeaderNav,
-    HeaderNavItem,
-    SideNav,
-    SideNavItems,
-    SideNavLink,
-    SkipToContent,
-    Content,
-    InlineNotification,
-  } from "carbon-components-svelte";
+let keycloak = new Keycloak();
+let loadData = function () {
+document.getElementById('username').innerText = keycloak.subject;
 
-  
+let url = 'http://localhost:8080/admin/master/console/#/';
 
+let req = new XMLHttpRequest();
+req.open('GET', url, true);
+req.setRequestHeader('Accept', 'application/json');
+req.setRequestHeader('Authorization', 'Bearer ' + keycloak.token);
 
-
-
-  import About from "./routes/About.svelte";
-  import Help from "./routes/Help.svelte";
-  import Contacts from "./routes/Contacts.svelte";
-  import Home from "./routes/Home.svelte";
-  import Authorization from "./routes/Authorization.svelte";
-  import Login from "./routes/Login.svelte";
-
-
-  let isSideNavOpen = false;
-
-
-
-
-    let domainValid = false;
-    let domain = ''
-    let errored = false;
-    let errorMessage = ''
-    let loading = false;
-    let records;
-
-    domainRecords.subscribe(value => {
-        records = value;
-    });
-
-    async function fetchData() {
-        // this.url = `${API_URL}${this.domain}`
-        // this.records = await (await fetch(this.url)).json()
-        if (domainValid) {
-            errored = false;
-            errorMessage = ''
-            loading = true;
-            // clear current state
-            domainRecords.set(new Map());
-            // load it afresh
-            await dnsClient.updateDomainRecords(domain, subDomains, error => console.log(error), () => loading = false)
-        } else {
-            errored = true;
-            errorMessage = '<b>' + domain + '</b> is not a valid domain name'
-        }
+req.onreadystatechange = function () {
+if (req.readyState == 4) {
+    if (req.status == 200) {
+        alert('Success');
+    } else if (req.status == 403) {
+        alert('Forbidden');
     }
+}
+}
 
-    function validateDomain() {
-        domainValid = /^.+\..+$/.test(domain);
-    }
+req.send();
+}
 
-    function containsAlphaNumericCharacters(value) {
-        return /^[a-zA-Z0-9-._#$%]*$/.test(value);
-    }
 
-    function handleDomainInput(event) {
-        let oldValue = domain;
-        let newValue = event.target.value;
+   keycloak.updateToken(70).then((refreshed) => {
+     if (refreshed) {
+        loadData();
+      } else {
+        alert('Failed to refresh token');
+      }
+    })
+   
 
-        if (containsAlphaNumericCharacters(newValue)) {
-            domain = newValue;
-            validateDomain();
-        } else {
-            event.target.value = oldValue;
-        }
-    }
+  </script>
 
-    onMount(async () => {
-        // no need to do anything on launch
-    });
-</script>
 
 <svelte:head>
-  <link
-  rel="stylesheet"
-  href="https://unpkg.com/carbon-components-svelte/css/white.css"
-/>
+
 </svelte:head>
 
+<body onload= {initKeycloak}>
 
-<div class = " container w-screen ">
-
-   
-    <div use:links>
+    <div use:links >
     <Router url="">
-      <Header
-      
-        bind:isSideNavOpen
-        expandedByDefault={false}
-      
-      >
-        <div slot="skip-to-content">
+
+  <!-- Navbar goes here -->
+  <nav class="bg-white shadow-lg">
+    <div class="w-full mx-auto px-4">
+      <div class="flex justify-between">
+        <div class="flex space-x-7">
+          <div>
+            <!-- Website Logo -->
+            <a href="/" class="flex items-center py-4 px-2">
+              <img src="favicon.svg" alt="Logo" class="h-8 w-8 mr-2">
+              <span class="text-green-500 text-2xl md:text-3xl lg:text-4xl font-bold p-4">Query DNS Records</span>
+            </a>
         
-  
-    </div>  
-   
-   
-        <HeaderNav class = " relative w-full flex flex-wrap items-center justify-between py-4 bg-gray-100 text-gray-500 hover:text-gray-700 focus:text-gray-700 shadow-lg navbar navbar-expand-lg navbar-light">
-                  
-            <div class= "  hidden  sm:flex sm:flex-row py-4 navbar-nav   items-left pl-0 list-style-none mr-auto" >
-              <div class = "flex flex-row">
-                 <HeaderNavItem   text="Query DNS Records "  href ="/" class = "uppercase font-bold bg-gray-100 text-gray-500 " />         
-               <HeaderNavItem text="About" href="/about"  />
-                   <HeaderNavItem text="Help" href="/help" />
-                <HeaderNavItem text="Contacts" href="/contacts"/>
-            <div class = "absolute inset-y-0 right-0 flex flex-row">
-                 <HeaderNavItem text="Sign in "  href ="/login"  />       
-              <HeaderNavItem text="Sign up" href="/auth" />
-               </div>
-            </div>
           </div>
-        </HeaderNav>
+          <!-- Primary Navbar items -->
+          <div class="hidden md:flex items-center space-x-1">
+          <a href = "/" class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300"> Home</a>
+         
+            <a  href="/about" class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300">About </a>
+            <a href="/help" class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300">Help</a>
+            <a href="/contacts" class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300">Contacts</a>
+          </div>
+        </div>
+        <!-- Secondary Navbar items -->
+        <div class="hidden md:flex items-center space-x-3 ">
+          <a href="http://localhost:8080/realms/Myrealm/account" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-400 hover:text-green-500 transition duration-300">Log In</a>
+          <a href="http://localhost:8080/realms/Myrealm/account" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-400 hover:text-green-500 transition duration-300">Sign Up</a>
+        </div>
+        <!-- Mobile menu button -->
+        <div class="md:hidden flex items-center">
+          <button class="outline-none mobile-menu-button">
+          <svg class=" w-6 h-6 text-gray-500 hover:text-green-500 "
+            x-show="!showMenu"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+        </div>
+      </div>
+    </div>
+    <!-- mobile menu -->
+    <div class="hidden mobile-menu">
+      <ul class="">
+        <li class="active"><a href="/" class="block text-sm px-2 py-4 text-white bg-green-500 font-semibold">Home</a></li>
+        <li><a href="/about" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">About</a></li>
+        <li><a href="/help" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Help</a></li>
+        <li><a href="/contacts" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Contacts </a></li>
+        <li><a href="http://localhost:8080/realms/Myrealm/account" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Log In</a></li>
+       <li> <a href="http://localhost:8080/realms/Myrealm/account" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Sign Up</a></li>
+      </ul>
+    </div>
+    <script>
+      const btn = document.querySelector("button.mobile-menu-button");
+      const menu = document.querySelector(".mobile-menu");
+    
+      btn.addEventListener("click", () => {
+        menu.classList.toggle("hidden");
+      });
+      </script>
+  </nav> 
+    
+<Route path="/" component={Home} />
+<Route path="/about" component={About} />
+<Route path="/help" component={Help} />
+<Route path="/contacts" component={Contacts} />
 
-        <SideNav bind:isOpen={isSideNavOpen} class ="relative display:flex flex-grow w-full md:display-none collapse navbar-collapse">
-          <SideNavItems>
-            <SideNavLink 
-            text="Query DNS Records"
-            href="/"
-            class = "display:flex flex-grow  sm:hidden"
-            on:click={() => (isSideNavOpen = !isSideNavOpen)} 
-            />
-            <SideNavLink
-              text="About"
-              href="/about"
-              class = "display:flex flex-grow   sm:hidden  "
-              on:click={() => (isSideNavOpen = !isSideNavOpen)} 
-            />
-            <SideNavLink
-              text="Help"
-              href="/help"
-              class = "display:flex flex-grow  sm:hidden"
-              on:click={() => (isSideNavOpen = !isSideNavOpen)} 
-            />
-            <SideNavLink
-            text="Contacts"
-            href="/contacts"
-            class = "display:flex flex-grow  sm:hidden"
-            on:click={() => (isSideNavOpen = !isSideNavOpen)} 
-          />
-          <SideNavLink
-          text="Sign in"
-          href="/login"
-          class = "display:flex flex-grow  sm:hidden"
-          on:click={() => (isSideNavOpen = !isSideNavOpen)} 
-        />
-        <SideNavLink
-        text="Sign up"
-        href="/auth"
-        class = "display:flex flex-grow  sm:hidden"
-        on:click={() => (isSideNavOpen = !isSideNavOpen)} 
-           />
-          </SideNavItems>
-        </SideNav>
-        
-      </Header>
+
+
+</Router>
+<slot></slot>
+
+ 
+<main class = "absolute block f-full">
   
-      <Content>
-        <Route path="/" component={Home} />
-        <Route path="/about" component={About} />
-        <Route path="/help" component={Help} />
-        <Route path="/contacts" component={Contacts} />
-        <Route path="/login" component={Login} />
-        <Route path="/auth" component={Authorization} />
-        <Route let:location>
-          <InlineNotification
-            hideCloseButton
-            title="Error:"
-            subtitle={`No route found for ${location.pathname}`}
-          />
-        </Route>
-        <SkipToContent  class = "hidden"/>
-      </Content>
-    </Router>
-  </div>
-
-
-</div>
-
-<slot />
-
-<main class = " container w-full ">
-   
-
 </main>
+</body>
 <Footer/>
