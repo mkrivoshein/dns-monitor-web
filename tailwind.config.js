@@ -27,12 +27,23 @@ export default {
                 700: '#8c99a6',
                 800: '#7e8c9b',
                 900: '#708090',
-            }
+            },
+            'green':{
+                400: '#4ADE80',
+                500: '#22C55E',
+
+            },
+            'gray':{
+           500: '#6B7280',
+            }   
+        }
         },
-    },
-    content: ["./index.html",'./src/**/*.{svelte,js,ts}'], // for unused CSS
+    
+    content: ["./index.html", "./src/**/*.{svelte,js,ts}"], // for unused CSS
     variants: {
         extend: {},
     },
     darkMode: 'media', // or 'media' or 'class'
+   
 }
+

@@ -1,137 +1,155 @@
 <script>
-    import './Tailwind.css';
-    import {onMount} from "svelte";
-    import {domainRecords} from './store.ts';
-    import Records from './components/Records.svelte'
-    import ErrorAlert from './components/ErrorAlert.svelte'
+    import './Tailwind.css' 
     import Footer from './components/Footer.svelte'
-    import dnsClient, {subDomains} from './DnsClient'
+    import { Router, links, Route } from 'svelte-routing'
+    import About from './routes/About.svelte'
+    import Help from './routes/Help.svelte'
+    import Contacts from './routes/Contacts.svelte'
+    import Home from './routes/Home.svelte'
+    import Keycloak from 'keycloak-js'
+    import './keycloak.json'
+	 
+ 
+    //connection with localhost Keycloak
+    const initKeycloak = async () => {
+    const config = { url: 'http://localhost:8080/auth', realm: 'Myrealm', clientId: 'dns-monitor-web'};
 
-    let domainValid = false;
-    let domain = ''
-    let errored = false;
-    let errorMessage = ''
-    let loading = false;
-    let records;
+    const keycloak = new Keycloak(config);
+    
+    await keycloak
+            .init({ onLoad: 'login-required' })
+            .then(isAuthenticated => {
+                //user is authenticated
+             })
+             .catch(error => { console.log('keycloak error', error); });
+}
 
-    domainRecords.subscribe(value => {
-        records = value;
-    });
 
-    async function fetchData() {
-        // this.url = `${API_URL}${this.domain}`
-        // this.records = await (await fetch(this.url)).json()
-        if (domainValid) {
-            errored = false;
-            errorMessage = ''
-            loading = true;
-            // clear current state
-            domainRecords.set(new Map());
-            // load it afresh
-            await dnsClient.updateDomainRecords(domain, subDomains, error => console.log(error), () => loading = false)
-        } else {
-            errored = true;
-            errorMessage = '<b>' + domain + '</b> is not a valid domain name'
-        }
+let keycloak = new Keycloak();
+let loadData = function () {
+document.getElementById('username').innerText = keycloak.subject;
+
+let url = 'http://localhost:8080/admin/master/console/#/';
+
+let req = new XMLHttpRequest();
+req.open('GET', url, true);
+req.setRequestHeader('Accept', 'application/json');
+req.setRequestHeader('Authorization', 'Bearer ' + keycloak.token);
+
+req.onreadystatechange = function () {
+if (req.readyState == 4) {
+    if (req.status == 200) {
+        alert('Success');
+    } else if (req.status == 403) {
+        alert('Forbidden');
     }
+}
+}
 
-    function validateDomain() {
-        domainValid = /^.+\..+$/.test(domain);
-    }
+req.send();
+}
 
-    function containsAlphaNumericCharacters(value) {
-        return /^[a-zA-Z0-9-._#$%]*$/.test(value);
-    }
 
-    function handleDomainInput(event) {
-        let oldValue = domain;
-        let newValue = event.target.value;
+   keycloak.updateToken(70).then((refreshed) => {
+     if (refreshed) {
+        loadData();
+      } else {
+        alert('Failed to refresh token');
+      }
+    })
+   
 
-        if (containsAlphaNumericCharacters(newValue)) {
-            domain = newValue;
-            validateDomain();
-        } else {
-            event.target.value = oldValue;
-        }
-    }
+  </script>
 
-    onMount(async () => {
-        // no need to do anything on launch
-    });
-</script>
 
 <svelte:head>
 
 </svelte:head>
 
-<main>
-    <section class="relative block px-4 pt-4 pb-8 h-300-px">
-        <h1 class="py-4 font-bold text-4xl text-blueGray-900">Query DNS records</h1>
-        <form on:submit|preventDefault={() => fetchData()}>
-        <div class="flex flex-row">
-                <div class="w-80">
-                    <label
-                            class="block uppercase text-blueGray-900 text-xs lg:text-lg font-bold mb-2"
-                            for="domain-name"
-                    >
-                        Enter a domain name:
-                    </label>
-                    <input
-                           class="border-0 px-3 py-3  w-full placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm lg:text-lg  shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                           id="domain-name"
-                           on:input|preventDefault={handleDomainInput}
-                           on:change={() => fetchData()}
-                           placeholder="google.com"
-                           type="domain"
-                    />
-                </div>
-                <div class="text-center  py-6 ml-4 sm:py-6 w-fit">
-                    <button on:click={() => fetchData()}
-                            class="bg-blueGray-100 text-blueGrey-900 active:bg-blueGray-900 text-sm lg:text-xl font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                            type="button">
-                        Report
-                    </button>
-                </div>
+<body onload= {initKeycloak}>
+
+    <div use:links >
+    <Router url="">
+
+  <!-- Navbar goes here -->
+  <nav class="bg-white shadow-lg">
+    <div class="w-full mx-auto px-4">
+      <div class="flex justify-between">
+        <div class="flex space-x-7">
+          <div>
+            <!-- Website Logo -->
+            <a href="/" class="flex items-center py-4 px-2">
+              <img src="favicon.svg" alt="Logo" class="h-8 w-8 mr-2">
+              <span class="text-green-500 text-2xl md:text-3xl lg:text-4xl font-bold p-4">Query DNS Records</span>
+            </a>
+        
+          </div>
+          <!-- Primary Navbar items -->
+          <div class="hidden md:flex items-center space-x-1">
+          <a href = "/" class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300"> Home</a>
+         
+            <a  href="/about" class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300">About </a>
+            <a href="/help" class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300">Help</a>
+            <a href="/contacts" class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300">Contacts</a>
+          </div>
         </div>
-        {#if errored && errorMessage !== ""}
-            <ErrorAlert message="{errorMessage}" />
-        {/if}
-        </form>
-    </section>
-    <section class=" relative px-3 py-1">
-        <div class="flex flex-wrap mt-1">
-            <div class="w-full mb-2">
-                <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded">
-                    <div class=" rounded-t mb-0 px-4 py-3 border-0">
-                        <div class="flex flex-wrap items-center">
-                            <div class="relative w-full  px-0 max-w-full flex-grow flex-1">
-                                <h3 class="font-semibold text-lg text-blueGray-700">
-                                    Results
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                 <div class = "container mx-auto 	w-40">
-                <div class= "block w-full py-1  overflow-x-auto ">
-                    <table class=" table-cell  items-center w-full  text-xs lg:text-lg break-words  bg-transparent border border-solid border-collapse  border-x-0 border-y-0">
-                        <thead>
-                        <tr class="border bg-blueGray-200" > 
-                      
-                            <th class="px-0.4 w-screen  py-3 lg:text-lg align-middle uppercase    break-words font-semibold text-left">Subdomain</th>
-                            <th class="px-0.4 w-screen py-3 lg:text-lg align-middle uppercase  break-words  font-semibold text-left">Type</th>
-                            <th class="px-0   w-screen  py-3 lg:text-lg align-middle uppercase  break-words font-semibold text-left">Content</th>
-                        </tr>
-                        </thead >
-                        {#each subDomains as subDomain}
-                            <Records subDomain="{subDomain}" domain="{domain}"/>
-                        {/each}
-                    </table>
-                </div>
-           </div>
-         </div>
+        <!-- Secondary Navbar items -->
+        <div class="hidden md:flex items-center space-x-3 ">
+          <a href="http://localhost:8080/realms/Myrealm/account" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-400 hover:text-green-500 transition duration-300">Log In</a>
+          <a href="http://localhost:8080/realms/Myrealm/account" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-400 hover:text-green-500 transition duration-300">Sign Up</a>
         </div>
-      
-    </section>
+        <!-- Mobile menu button -->
+        <div class="md:hidden flex items-center">
+          <button class="outline-none mobile-menu-button">
+          <svg class=" w-6 h-6 text-gray-500 hover:text-green-500 "
+            x-show="!showMenu"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+        </div>
+      </div>
+    </div>
+    <!-- mobile menu -->
+    <div class="hidden mobile-menu">
+      <ul class="">
+        <li class="active"><a href="/" class="block text-sm px-2 py-4 text-white bg-green-500 font-semibold">Home</a></li>
+        <li><a href="/about" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">About</a></li>
+        <li><a href="/help" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Help</a></li>
+        <li><a href="/contacts" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Contacts </a></li>
+        <li><a href="http://localhost:8080/realms/Myrealm/account" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Log In</a></li>
+       <li> <a href="http://localhost:8080/realms/Myrealm/account" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Sign Up</a></li>
+      </ul>
+    </div>
+    <script>
+      const btn = document.querySelector("button.mobile-menu-button");
+      const menu = document.querySelector(".mobile-menu");
+    
+      btn.addEventListener("click", () => {
+        menu.classList.toggle("hidden");
+      });
+      </script>
+  </nav> 
+    
+<Route path="/" component={Home} />
+<Route path="/about" component={About} />
+<Route path="/help" component={Help} />
+<Route path="/contacts" component={Contacts} />
+
+
+
+</Router>
+<slot></slot>
+
+ 
+<main class = "absolute block f-full">
+  
 </main>
+</body>
 <Footer/>
