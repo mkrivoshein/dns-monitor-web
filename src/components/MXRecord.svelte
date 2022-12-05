@@ -3,6 +3,6 @@
 </script>
 
 <article>
-    <p>{record.value}</p>
-    <p>priority: {record.priority}</p>
+    <p class="text-sm">{record.value}</p>
+    <p class="text-sm">priority: {record.priority}</p>
 </article>

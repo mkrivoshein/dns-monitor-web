@@ -76,7 +76,7 @@
                         Enter a domain name:
                     </label>
                     <input
-                           class="border-0 px-3 py-3  w-full placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm lg:text-lg  shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                           class="border-0 px-3 py-3  w-full placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm lg:text-base shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                            id="domain-name"
                            on:input|preventDefault={handleDomainInput}
                            on:change={() => fetchData()}
@@ -86,7 +86,7 @@
                 </div>
                 <div class="text-center  py-6 ml-4 sm:py-6 w-fit">
                     <button on:click={() => fetchData()}
-                        class="bg-blueGray-100 text-blueGrey-900 active:bg-blueGray-900 text-sm lg:text-xl font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                        class="bg-blueGray-100 text-blueGrey-900 active:bg-blueGray-900 text-sm lg:text-base font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                         type="button">
                         Report
                     </button>
