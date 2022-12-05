@@ -1,5 +1,7 @@
 <script>
     import './Tailwind.css';
+    import "carbon-components-svelte/css/all.css";
+    import './plex.css';
     import {onMount} from "svelte";
     import {domainRecords} from './store.ts';
     import Footer from './components/Footer.svelte'
@@ -89,14 +91,6 @@
         // no need to do anything on launch
     });
 </script>
-
-<svelte:head>
-  <link
-  rel="stylesheet"
-  href="https://unpkg.com/carbon-components-svelte/css/white.css"
-/>
-</svelte:head>
-
 
 <div class = " container w-screen ">
 
