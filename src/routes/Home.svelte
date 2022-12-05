@@ -4,10 +4,7 @@
     import {domainRecords} from '../store.ts';
     import Records from '../components/Records.svelte'
     import ErrorAlert from '../components/ErrorAlert.svelte'
-
     import dnsClient, {subDomains} from '../DnsClient'
-
-
 
 
     let domainValid = false;
@@ -64,8 +61,10 @@
 </script>
 
 <main>
+
+    
     <section class="relative block px-4 pt-4 pb-8  h-300-px">
-        <!--<h1 class="py-4 font-bold text-4xl text-blueGray-900">Query DNS records</h1> первонач. вариант размещения записи-->
+        
         <form on:submit|preventDefault={() => fetchData()}>
         <div class="flex flex-row">
                 <div class="w-80">
