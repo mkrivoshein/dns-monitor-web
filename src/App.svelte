@@ -73,29 +73,29 @@ req.send();
           <div>
             <!-- Website Logo -->
             <a href="/" class="flex items-center py-4 px-2">
-              <img src="favicon.svg" alt="Logo" class="h-8 w-8 mr-2">
-              <span class="text-green-500 text-2xl md:text-3xl lg:text-4xl font-bold p-4">Query DNS Records</span>
+              <img src="favicon.svg" alt="Logo" class="h-16 w-16 mr-2">
+              <span class="text-blue-500 text-2xl md:text-xl lg:text-2xl font-bold p-4">DNS Monitor</span>
             </a>
         
           </div>
           <!-- Primary Navbar items -->
           <div class="hidden md:flex items-center space-x-1">
-          <a href = "/" class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300"> Home</a>
+          <a href = "/" class="py-4 px-2 text-gray-500 font-semibold hover:text-blue-500 transition duration-300"> Home</a>
 
-            <a  href="/about" class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300">About </a>
-            <a href="/help" class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300">Help</a>
-            <a href="/contacts" class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300">Contacts</a>
+            <a  href="/about" class="py-4 px-2 text-gray-500 font-semibold hover:text-blue-500 transition duration-300">About </a>
+            <a href="/help" class="py-4 px-2 text-gray-500 font-semibold hover:text-blue-500 transition duration-300">Help</a>
+            <a href="/contacts" class="py-4 px-2 text-gray-500 font-semibold hover:text-blue-500 transition duration-300">Contacts</a>
           </div>
         </div>
         <!-- Secondary Navbar items -->
         <div class="hidden md:flex items-center space-x-3 ">
-          <a href="http://localhost:8080/realms/Myrealm/account" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-400 hover:text-green-500 transition duration-300">Log In</a>
-          <a href="http://localhost:8080/realms/Myrealm/account" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-400 hover:text-green-500 transition duration-300">Sign Up</a>
+          <a href="http://localhost:8080/realms/Myrealm/account" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-400 hover:text-blue-500 transition duration-300">Log In</a>
+          <a href="http://localhost:8080/realms/Myrealm/account" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-400 hover:text-blue-500 transition duration-300">Sign Up</a>
         </div>
         <!-- Mobile menu button -->
         <div class="md:hidden flex items-center">
           <button class="outline-none mobile-menu-button">
-          <svg class=" w-6 h-6 text-gray-500 hover:text-green-500 "
+          <svg class=" w-6 h-6 text-gray-500 hover:text-blue-500 "
             x-show="!showMenu"
             fill="none"
             stroke-linecap="round"
