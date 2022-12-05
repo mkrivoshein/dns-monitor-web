@@ -93,9 +93,9 @@
 <tbody id="CNAME" class="border">
 {#each cnameRecords as record}
     <tr>
-        <td class="px-6 align-middle text-s  p-1">{subDomain}</td>
-        <td class="px-6 align-middle text-s  p-1">{record.recordType}</td>
-        <td class="px-6 align-middle text-s  p-1">
+        <td class="px-6 align-middle text-sm p-1">{subDomain}</td>
+        <td class="px-6 align-middle text-sm p-1">{record.recordType}</td>
+        <td class="px-6 align-middle text-sm p-1">
             {record.value}
         </td>
     </tr>
@@ -105,9 +105,9 @@
 <tbody id="A" class="border">
 {#each aRecords as record}
     <tr>
-        <td class="px-6 align-middle text-s p-1">{subDomain}</td>
-        <td class="px-6 align-middle text-s p-1">{record.recordType}</td>
-        <td class="px-6 align-middle text-s  p-1">
+        <td class="px-6 align-middle text-sm p-1">{subDomain}</td>
+        <td class="px-6 align-middle text-sm p-1">{record.recordType}</td>
+        <td class="px-6 align-middle text-sm p-1">
             <ARecord record="{record}"/>
         </td>
     </tr>
@@ -117,9 +117,9 @@
 <tbody id="AAAA" class="border">
 {#each aaaaRecords as record}
     <tr>
-        <td class="px-6 align-middle text-s  p-1">{subDomain}</td>
-        <td class="px-6 align-middle text-s  p-1">{record.recordType}</td>
-        <td class="px-6 align-middle text-s  p-1">
+        <td class="px-6 align-middle text-sm p-1">{subDomain}</td>
+        <td class="px-6 align-middle text-sm p-1">{record.recordType}</td>
+        <td class="px-6 align-middle text-sm p-1">
             <AAAARecord record="{record}"/>
         </td>
     </tr>
@@ -129,9 +129,9 @@
 <tbody id="MX" class="border">
 {#each mxRecords as record}
     <tr>
-        <td class="px-6 align-middle text-s  p-1">{subDomain}</td>
-        <td class="px-6 align-middle text-s  p-1">{record.recordType}</td>
-        <td class="px-6 align-middle text-s  p-1">
+        <td class="px-6 align-middle text-sm p-1">{subDomain}</td>
+        <td class="px-6 align-middle text-sm p-1">{record.recordType}</td>
+        <td class="px-6 align-middle text-sm p-1">
             <MXRecord record="{record}"/>
         </td>
     </tr>
@@ -141,9 +141,9 @@
 <tbody id="TXT" class="border">
 {#each txtRecords as record}
     <tr>
-        <td class="px-6 align-middle text-s  p-1">{subDomain}</td>
-        <td class="px-6 align-middle text-s p-1">{record.recordType}</td>
-        <td class="px-6 align-middle text-s  p-1">
+        <td class="px-6 align-middle text-sm p-1">{subDomain}</td>
+        <td class="px-6 align-middle text-sm p-1">{record.recordType}</td>
+        <td class="px-6 align-middle text-sm p-1">
             {record.value}
         </td>
     </tr>
@@ -153,9 +153,9 @@
 <tbody id="SRV" class="border">
 {#each srvRecords as record}
     <tr>
-        <td class="px-6 align-middle text-s  p-1">{subDomain}</td>
-        <td class="px-6 align-middle text-s  p-1">{record.recordType}</td>
-        <td class="px-6 align-middle text-s  p-1">
+        <td class="px-6 align-middle text-sm p-1">{subDomain}</td>
+        <td class="px-6 align-middle text-sm p-1">{record.recordType}</td>
+        <td class="px-6 align-middle text-sm p-1">
             <SRVRecord record="{record}"/>
         </td>
     </tr>
@@ -165,9 +165,9 @@
 <tbody id="NS" class="border">
 {#each nsRecords as record}
     <tr>
-        <td class="px-6 align-middle text-s  p-1">{subDomain}</td>
-        <td class="px-6 align-middle text-s  p-1">{record.recordType}</td>
-        <td class="px-6 align-middle text-s  p-1">
+        <td class="px-6 align-middle text-sm p-1">{subDomain}</td>
+        <td class="px-6 align-middle text-sm p-1">{record.recordType}</td>
+        <td class="px-6 align-middle text-sm p-1">
             <NSRecord record="{record}"/>
         </td>
     </tr>
@@ -177,9 +177,9 @@
 <tbody id="CAA" class="border">
 {#each caaRecords as record}
     <tr>
-        <td class="px-6 align-middle text-s  p-1">{subDomain}</td>
-        <td class="px-6 align-middle text-s  p-1">{record.recordType}</td>
-        <td class="px-6 align-middle text-s  p-1">
+        <td class="px-6 align-middle text-sm p-1">{subDomain}</td>
+        <td class="px-6 align-middle text-sm p-1">{record.recordType}</td>
+        <td class="px-6 align-middle text-sm p-1">
             <CAARecord record="{record}"/>
         </td>
     </tr>
@@ -189,9 +189,9 @@
 <tbody id="SOA" class="border">
 {#each soaRecords as record}
     <tr>
-        <td class="px-6 align-middle text-s  p-1">{subDomain}</td>
-        <td class="px-6 align-middle text-s p-1">{record.recordType}</td>
-        <td class="px-6 align-middle text-s  p-1">
+        <td class="px-6 align-middle text-sm p-1">{subDomain}</td>
+        <td class="px-6 align-middle text-sm p-1">{record.recordType}</td>
+        <td class="px-6 align-middle text-sm p-1">
             <SOARecord record="{record}"/>
         </td>
     </tr>
@@ -201,9 +201,9 @@
 <tbody id="Other" class="border">
 {#each otherRecords as record}
     <tr>
-        <td class="px-6 align-middle text-s  p-1">{subDomain}</td>
-        <td class="px-6 align-middle text-s  p-1">{record.recordType}</td>
-        <td class="px-6 align-middle text-s  p-1">
+        <td class="px-6 align-middle text-sm p-1">{subDomain}</td>
+        <td class="px-6 align-middle text-sm p-1">{record.recordType}</td>
+        <td class="px-6 align-middle text-sm p-1">
             {JSON.stringify(record)}
         </td>
     </tr>

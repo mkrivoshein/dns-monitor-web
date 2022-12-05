@@ -70,7 +70,7 @@
         <div class="flex flex-row">
                 <div class="w-80">
                     <label
-                            class="block uppercase text-blueGray-900 text-xs lg:text-lg font-bold mb-2"
+                            class="block uppercase text-blueGray-900 text-xs font-bold mb-2"
                             for="domain-name"
                     >
                         Enter a domain name:
@@ -113,13 +113,13 @@
                 </div>
                 
                 <div class= "block w-full py-1  overflow-x-auto ">
-                    <table class=" table-row  lg:table-auto  items-center w-full text-xs lg:text-lg whitespace-normal break-all  bg-transparent border border-solid border-collapse  border-x-0 border-y-0">
+                    <table class=" table-row  lg:table-auto  items-center w-full text-sm whitespace-normal break-all  bg-transparent border border-solid border-collapse  border-x-0 border-y-0">
                         <thead>
                         <tr class="border bg-blueGray-200" > 
                       
-                            <th class="px-0.4 w-screen  py-3 lg:text-lg align-middle uppercase  whitespace-normal   break-all font-semibold text-left">Subdomain</th>
-                            <th class="px-0.4 w-screen py-3 lg:text-lg align-middle uppercase whitespace-normal  break-all  font-semibold text-left">Type</th>
-                            <th class="px-0   w-screen  py-3 lg:text-lg align-middle uppercase whitespace-normal  break-all font-semibold text-left">Content</th>
+                            <th class="px-0.4 w-screen  py-3 align-middle uppercase  whitespace-normal   break-all font-semibold text-left">Subdomain</th>
+                            <th class="px-0.4 w-screen py-3 align-middle uppercase whitespace-normal  break-all  font-semibold text-left">Type</th>
+                            <th class="px-0   w-screen  py-3 align-middle uppercase whitespace-normal  break-all font-semibold text-left">Content</th>
                         </tr>
                         </thead >
                         {#each subDomains as subDomain}
