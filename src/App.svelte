@@ -61,8 +61,6 @@ req.send();
 
   </script>
 
-<div class = " container w-screen ">
-
 <body onload= {initKeycloak}>
     <div use:links>
     <Router url="">
