@@ -44,6 +44,4 @@ export default {
         extend: {},
     },
     darkMode: 'media', // or 'media' or 'class'
-   
 }
-

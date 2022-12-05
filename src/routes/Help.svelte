@@ -1,7 +1,6 @@
- <h1 class="py-4 font-bold text-4xl text-blueGray-900">Query DNS records</h1> 
+ <h1 class="py-4 font-bold text-4xl text-blueGray-900">How and Why of DNS Monitoring</h1>
     <div class="relative block px-4 pt-4 pb-8  h-300-px">
-        <h1 class="text-4xl text-center font-black">Help</h1>
-        
+
         <div class="relative block sm:mx-3 px-3 py-1 ">
             <div class="flex flex-wrap mt-1">
                 <div class="w-full mb-2">
