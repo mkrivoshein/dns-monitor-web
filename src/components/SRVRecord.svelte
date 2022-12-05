@@ -3,8 +3,8 @@
 </script>
 
 <article>
-    <p>{record.value}</p>
-    <p>priority: {record.priority}</p>
-    <p>weight: {record.weight}</p>
-    <p>port: {record.port}</p>
+    <p class="text-sm">{record.value}</p>
+    <p class="text-sm">priority: {record.priority}</p>
+    <p class="text-sm">weight: {record.weight}</p>
+    <p class="text-sm">port: {record.port}</p>
 </article>

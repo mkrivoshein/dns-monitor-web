@@ -14,7 +14,7 @@
     "@tsconfig/svelte": "^2.0.1",
     "autoprefixer": "^10.4.12",
     "daisyui": "^2.24.2",
-    "postcss": "^8.4.18",
+    "postcss": "^8.4.19",
     "svelte": "^3.50.1",
     "svelte-check": "^2.9.2",
     "svelte-preprocess": "^4.10.7",
@@ -24,6 +24,10 @@
     "vite": "^2.9.12"
   },
   "dependencies": {
-    "axios": "^0.27.2"
+    "@carbon/type": "^11.12.0",
+    "@ibm/plex": "^6.1.1",
+    "axios": "^0.27.2",
+    "carbon-components-svelte": "^0.67.9",
+    "svelte-routing": "^1.6.0"
   }
 }

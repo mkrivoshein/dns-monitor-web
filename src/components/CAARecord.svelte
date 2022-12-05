@@ -3,7 +3,7 @@
 </script>
 
 <article>
-    <p>{record.value}</p>
-    <p>type: {record.type}</p>
-    <p>flags: {record.flags}</p>
+    <p class="text-sm">{record.value}</p>
+    <p class="text-sm">type: {record.type}</p>
+    <p class="text-sm">flags: {record.flags}</p>
 </article>

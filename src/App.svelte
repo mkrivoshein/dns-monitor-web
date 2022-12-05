@@ -1,11 +1,43 @@
 <script>
     import './Tailwind.css';
+    import "carbon-components-svelte/css/all.css";
+    import './plex.css';
     import {onMount} from "svelte";
     import {domainRecords} from './store.ts';
-    import Records from './components/Records.svelte'
-    import ErrorAlert from './components/ErrorAlert.svelte'
     import Footer from './components/Footer.svelte'
     import dnsClient, {subDomains} from './DnsClient'
+
+
+  import { Router, links, Route } from "svelte-routing";
+  import {
+    Header,
+    HeaderNav,
+    HeaderNavItem,
+    SideNav,
+    SideNavItems,
+    SideNavLink,
+    SkipToContent,
+    Content,
+    InlineNotification,
+  } from "carbon-components-svelte";
+
+  
+
+
+
+
+  import About from "./routes/About.svelte";
+  import Help from "./routes/Help.svelte";
+  import Contacts from "./routes/Contacts.svelte";
+  import Home from "./routes/Home.svelte";
+  import Authorization from "./routes/Authorization.svelte";
+  import Login from "./routes/Login.svelte";
+
+
+  let isSideNavOpen = false;
+
+
+
 
     let domainValid = false;
     let domain = ''
@@ -60,78 +92,108 @@
     });
 </script>
 
-<svelte:head>
+<div class = " container w-screen ">
 
-</svelte:head>
-
-<main>
-    <section class="relative block px-4 pt-4 pb-8 h-300-px">
-        <h1 class="py-4 font-bold text-4xl text-blueGray-900">Query DNS records</h1>
-        <form on:submit|preventDefault={() => fetchData()}>
-        <div class="flex flex-row">
-                <div class="w-80">
-                    <label
-                            class="block uppercase text-blueGray-900 text-xs lg:text-lg font-bold mb-2"
-                            for="domain-name"
-                    >
-                        Enter a domain name:
-                    </label>
-                    <input
-                           class="border-0 px-3 py-3  w-full placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm lg:text-lg  shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                           id="domain-name"
-                           on:input|preventDefault={handleDomainInput}
-                           on:change={() => fetchData()}
-                           placeholder="google.com"
-                           type="domain"
-                    />
-                </div>
-                <div class="text-center  py-6 ml-4 sm:py-6 w-fit">
-                    <button on:click={() => fetchData()}
-                            class="bg-blueGray-100 text-blueGrey-900 active:bg-blueGray-900 text-sm lg:text-xl font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                            type="button">
-                        Report
-                    </button>
-                </div>
-        </div>
-        {#if errored && errorMessage !== ""}
-            <ErrorAlert message="{errorMessage}" />
-        {/if}
-        </form>
-    </section>
-    <section class=" relative px-3 py-1">
-        <div class="flex flex-wrap mt-1">
-            <div class="w-full mb-2">
-                <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded">
-                    <div class=" rounded-t mb-0 px-4 py-3 border-0">
-                        <div class="flex flex-wrap items-center">
-                            <div class="relative w-full  px-0 max-w-full flex-grow flex-1">
-                                <h3 class="font-semibold text-lg text-blueGray-700">
-                                    Results
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                 <div class = "container mx-auto 	w-40">
-                <div class= "block w-full py-1  overflow-x-auto ">
-                    <table class=" table-cell  items-center w-full  text-xs lg:text-lg break-words  bg-transparent border border-solid border-collapse  border-x-0 border-y-0">
-                        <thead>
-                        <tr class="border bg-blueGray-200" > 
-                      
-                            <th class="px-0.4 w-screen  py-3 lg:text-lg align-middle uppercase    break-words font-semibold text-left">Subdomain</th>
-                            <th class="px-0.4 w-screen py-3 lg:text-lg align-middle uppercase  break-words  font-semibold text-left">Type</th>
-                            <th class="px-0   w-screen  py-3 lg:text-lg align-middle uppercase  break-words font-semibold text-left">Content</th>
-                        </tr>
-                        </thead >
-                        {#each subDomains as subDomain}
-                            <Records subDomain="{subDomain}" domain="{domain}"/>
-                        {/each}
-                    </table>
-                </div>
-           </div>
-         </div>
-        </div>
+   
+    <div use:links>
+    <Router url="">
+      <Header
       
-    </section>
+        bind:isSideNavOpen
+        expandedByDefault={false}
+      
+      >
+        <div slot="skip-to-content">
+        
+  
+    </div>  
+   
+   
+        <HeaderNav class = " relative w-full flex flex-wrap items-center justify-between py-4 bg-gray-100 text-gray-500 hover:text-gray-700 focus:text-gray-700 shadow-lg navbar navbar-expand-lg navbar-light">
+                  
+            <div class= "  hidden  sm:flex sm:flex-row py-4 navbar-nav   items-left pl-0 list-style-none mr-auto" >
+              <div class = "flex flex-row">
+                 <HeaderNavItem   text="Query DNS Records "  href ="/" class = "uppercase font-bold bg-gray-100 text-gray-500 " />         
+               <HeaderNavItem text="About" href="/about"  />
+                   <HeaderNavItem text="Help" href="/help" />
+                <HeaderNavItem text="Contacts" href="/contacts"/>
+            <div class = "absolute inset-y-0 right-0 flex flex-row">
+                 <HeaderNavItem text="Sign in "  href ="/login"  />       
+              <HeaderNavItem text="Sign up" href="/auth" />
+               </div>
+            </div>
+          </div>
+        </HeaderNav>
+
+        <SideNav bind:isOpen={isSideNavOpen} class ="relative display:flex flex-grow w-full md:display-none collapse navbar-collapse">
+          <SideNavItems>
+            <SideNavLink 
+            text="Query DNS Records"
+            href="/"
+            class = "display:flex flex-grow  sm:hidden"
+            on:click={() => (isSideNavOpen = !isSideNavOpen)} 
+            />
+            <SideNavLink
+              text="About"
+              href="/about"
+              class = "display:flex flex-grow   sm:hidden  "
+              on:click={() => (isSideNavOpen = !isSideNavOpen)} 
+            />
+            <SideNavLink
+              text="Help"
+              href="/help"
+              class = "display:flex flex-grow  sm:hidden"
+              on:click={() => (isSideNavOpen = !isSideNavOpen)} 
+            />
+            <SideNavLink
+            text="Contacts"
+            href="/contacts"
+            class = "display:flex flex-grow  sm:hidden"
+            on:click={() => (isSideNavOpen = !isSideNavOpen)} 
+          />
+          <SideNavLink
+          text="Sign in"
+          href="/login"
+          class = "display:flex flex-grow  sm:hidden"
+          on:click={() => (isSideNavOpen = !isSideNavOpen)} 
+        />
+        <SideNavLink
+        text="Sign up"
+        href="/auth"
+        class = "display:flex flex-grow  sm:hidden"
+        on:click={() => (isSideNavOpen = !isSideNavOpen)} 
+           />
+          </SideNavItems>
+        </SideNav>
+        
+      </Header>
+  
+      <Content>
+        <Route path="/" component={Home} />
+        <Route path="/about" component={About} />
+        <Route path="/help" component={Help} />
+        <Route path="/contacts" component={Contacts} />
+        <Route path="/login" component={Login} />
+        <Route path="/auth" component={Authorization} />
+        <Route let:location>
+          <InlineNotification
+            hideCloseButton
+            title="Error:"
+            subtitle={`No route found for ${location.pathname}`}
+          />
+        </Route>
+        <SkipToContent  class = "hidden"/>
+      </Content>
+    </Router>
+  </div>
+
+
+</div>
+
+<slot />
+
+<main class = " container w-full ">
+   
+
 </main>
 <Footer/>
