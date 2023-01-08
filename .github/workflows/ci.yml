@@ -8,11 +8,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Test using Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
       - run: npm install
-      - run: npm test:ci
+      - run: npm run test:ci
 
       - name: Tests ✅
         if: ${{ success() }}
