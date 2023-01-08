@@ -20,7 +20,7 @@
     "@tsconfig/svelte": "^3.0.0",
     "@types/jest": "^29.2.5",
     "autoprefixer": "^10.4.13",
-    "daisyui": "^2.24.2",
+    "daisyui": "^2.46.1",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^29.3.1",
     "jest-environment-jsdom": "^29.3.1",
