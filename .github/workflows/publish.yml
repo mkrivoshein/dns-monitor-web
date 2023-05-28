@@ -40,7 +40,7 @@ jobs:
           token_format: 'access_token'
           access_token_lifetime: '600s' # 10 minutes should be long enough
           create_credentials_file: false
-      - uses: 'docker/login-action@v1'
+      - uses: 'docker/login-action@v2'
         with:
           registry: ${{ env.REGISTRY }}
           username: 'oauth2accesstoken'
