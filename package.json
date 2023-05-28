@@ -23,7 +23,7 @@
     "daisyui": "^2.51.6",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^29.3.1",
-    "jest-environment-jsdom": "^29.3.1",
+    "jest-environment-jsdom": "^29.5.0",
     "jest-github-actions-reporter": "^1.0.3",
     "postcss": "^8.4.21",
     "svelte": "^3.59.1",
