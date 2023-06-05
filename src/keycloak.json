@@ -1,0 +1,5 @@
+{
+  "realm": "external",
+  "url": "https://login.bluestar.host",
+  "clientId": "dns-monitor-web"
+}

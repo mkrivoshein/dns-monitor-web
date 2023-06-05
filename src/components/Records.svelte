@@ -40,7 +40,7 @@
 
         let fqdn = dnsClient.fqdn(subDomain, domain);
         let records = value.get(fqdn);
-        console.log("records=" + JSON.stringify(records));
+
         if (records) {
             for (const record of records) {
                 switch (record.recordType) {
