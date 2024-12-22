@@ -15,15 +15,15 @@ on:
 jobs:
   publish:
     environment: Live
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     permissions:
       contents: 'read'
       id-token: 'write'
     steps:
-      - uses: 'actions/checkout@v3'
+      - uses: 'actions/checkout@v4'
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           # list of Docker images to use as base name for tags
           images: |
@@ -33,20 +33,20 @@ jobs:
             type=semver,pattern={{version}}
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v0'
+        uses: 'google-github-actions/auth@v2'
         with:
           workload_identity_provider: '${{ secrets.GCP_WIP }}'
           service_account: '${{ secrets.GCP_SERVICE_ACCOUNT }}'
           token_format: 'access_token'
           access_token_lifetime: '600s' # 10 minutes should be long enough
           create_credentials_file: false
-      - uses: 'docker/login-action@v2'
+      - uses: 'docker/login-action@v3'
         with:
           registry: ${{ env.REGISTRY }}
           username: 'oauth2accesstoken'
           password: ${{ steps.auth.outputs.access_token }}
       - name: Build and push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
