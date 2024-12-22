@@ -16,7 +16,7 @@ export default defineConfig({
   server: {
     proxy: {
       '^/dns/.*': {
-        target: 'https://api.agencyapi.io',
+        target: 'https://api.dnsmonitor.io',
         changeOrigin: true
         // rewrite: (path) => path.replace(/^\/api/, '')
       }
