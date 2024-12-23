@@ -1,8 +1,11 @@
-module.exports = {
+import type {Config} from 'jest';
+import {defaults} from 'jest-config';
+
+const config: Config = {
     transform: {
         "^.+\\.svelte$": [
             "svelte-jester",
-            { preprocess: "./svelte.config.test.cjs" },
+            { preprocess: "./svelte.config.test.js" },
         ],
         "^.+\\.ts$": [ "ts-jest", { "useESM": true }],
         "^.+\\.js$": [ "ts-jest", { "useESM": true }],
@@ -21,3 +24,5 @@ module.exports = {
     setupFilesAfterEnv: ["<rootDir>/jest-setup.ts"],
     collectCoverageFrom: ["src/**/*.{ts,tsx,svelte,js,jsx}"],
 };
+
+export default config;
