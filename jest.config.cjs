@@ -4,10 +4,11 @@ module.exports = {
             "svelte-jester",
             { preprocess: "./svelte.config.test.cjs" },
         ],
-        "^.+\\.ts$": "ts-jest",
-        "^.+\\.js$": "ts-jest",
+        "^.+\\.ts$": [ "ts-jest", { "useESM": true }],
+        "^.+\\.js$": [ "ts-jest", { "useESM": true }],
     },
     moduleFileExtensions: ["js", "ts", "svelte"],
+    extensionsToTreatAsEsm: [".svelte", ".ts"],
     moduleNameMapper: {
         "^\\$lib(.*)$": "<rootDir>/src/lib$1",
         "^\\$app(.*)$": [
@@ -16,6 +17,7 @@ module.exports = {
         ],
         "\\.(css|sass)$": "identity-obj-proxy",
     },
+    testEnvironment: 'jsdom',
     setupFilesAfterEnv: ["<rootDir>/jest-setup.ts"],
     collectCoverageFrom: ["src/**/*.{ts,tsx,svelte,js,jsx}"],
 };
