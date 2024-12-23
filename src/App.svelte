@@ -5,7 +5,7 @@
     import Records from './components/Records.svelte'
     import ErrorAlert from './components/ErrorAlert.svelte'
     import Footer from './components/Footer.svelte'
-    import dnsClient, {subDomains} from './DnsClient'
+    import dnsClient, {subDomains} from './DnsClient.ts'
 
     let domainValid = false;
     let domain = ''
