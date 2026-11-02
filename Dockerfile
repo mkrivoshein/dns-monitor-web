@@ -1,4 +1,4 @@
-FROM node:22.12.0-alpine3.21 AS deps
+FROM node:24.22.2-alpine AS deps
 WORKDIR /srv
 COPY . .
 RUN npm ci
